@@ -1,4 +1,4 @@
-# Storage REST API
+# Storage API
 ## To run:
 ```
 dotnet clean
