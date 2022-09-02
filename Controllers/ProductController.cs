@@ -53,7 +53,7 @@ namespace storage.Controllers{
         public async Task<IActionResult> PostAsync([FromServices] AppDbContext context, [FromBody] CreateProduct product){
             //aplica validações (required por ex)
             if(!ModelState.IsValid){
-                return BadRequest();
+                return BadRequest("data is invalid");
             }
             //var category = (from c in context.Categories where c.Description == product.Category.Description select c).FirstOrDefault();
             var category = context.Categories.Where(c => c.Description.Equals(product.Category.Description)).FirstOrDefault();
@@ -121,5 +121,30 @@ namespace storage.Controllers{
             }
 
         }
+    
+        [HttpPut("products/sell/{id}/{quantity}")]
+        public async Task<IActionResult> PutAsync([FromServices] AppDbContext context, [FromRoute] int id, [FromRoute] int quantity){
+
+            var prod = await context.Products.FirstOrDefaultAsync(x => x.Id == id);
+            if (prod == null){
+                return NotFound();
+            }
+
+            try{
+                if ((prod.Quantity - quantity) >= 0){
+                    prod.Quantity = prod.Quantity - quantity;
+                }else{
+                    return BadRequest("unable to sell this quantity");
+                }
+
+                context.Products.Update(prod);
+                await context.SaveChangesAsync();
+                return Ok(prod);
+            }catch{
+                return StatusCode(500);
+            }
+
+        }
+
     }
 }
