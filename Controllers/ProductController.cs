@@ -35,8 +35,13 @@ namespace storage.Controllers{
         [HttpGet]
         //products?description={description} (description included auto)
         [Route("products/filters")]
-        public async Task<IActionResult> GetAsync( [FromServices] AppDbContext context, [FromQuery] string? description,  [FromQuery] string? category){
-            var products =  await context.Products.AsNoTracking().Where(x => description==null? true : x.Description.Contains(description)).Include(product => product.Category).Where(x => category==null ? true : x.Category.Description.Contains(category)).ToListAsync();
+        public async Task<IActionResult> GetAsync( [FromServices] AppDbContext context, [FromQuery] string? description,  [FromQuery] string? category, [FromQuery] int? quant){
+            var products =  await context.Products.AsNoTracking().Include(product => product.Category)
+            .Where(x => description==null? true : x.Description.Contains(description))
+            .Where(x => category==null ? true : x.Category.Description.Contains(category))
+            .Where(x => quant==null ? true : x.Quantity <= quant)
+
+            .ToListAsync();
     
             if (products==null)
                 return NotFound();
@@ -67,8 +72,7 @@ namespace storage.Controllers{
                 await context.SaveChangesAsync();
                 return Created($"v1/products/{prod.Id}", prod);
             }catch(Exception e){
-                Console.WriteLine(e);
-                return BadRequest();
+                return StatusCode(500);
             }
         }
 
@@ -97,7 +101,7 @@ namespace storage.Controllers{
                 await context.SaveChangesAsync();
                 return Ok(prod);
             }catch{
-                return BadRequest();
+                return StatusCode(500);
             }
 
         }
@@ -113,11 +117,9 @@ namespace storage.Controllers{
                 await context.SaveChangesAsync();
                 return Ok();
             }catch{
-                return BadRequest();
+                return StatusCode(500);
             }
 
         }
-
-
     }
 }
