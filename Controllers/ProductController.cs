@@ -35,11 +35,11 @@ namespace storage.Controllers{
         [HttpGet]
         //products?description={description} (description included auto)
         [Route("products/filters")]
-        public async Task<IActionResult> GetAsync( [FromServices] AppDbContext context, [FromQuery] string? description,  [FromQuery] string? category, [FromQuery] int? quant){
+        public async Task<IActionResult> GetAsync( [FromServices] AppDbContext context, [FromQuery] string? description,  [FromQuery] string? category, [FromQuery] int? quantity){
             var products =  await context.Products.AsNoTracking().Include(product => product.Category)
             .Where(x => description==null? true : x.Description.Contains(description))
             .Where(x => category==null ? true : x.Category.Description.Contains(category))
-            .Where(x => quant==null ? true : x.Quantity <= quant)
+            .Where(x => quantity==null ? true : x.Quantity <= quantity)
 
             .ToListAsync();
     
