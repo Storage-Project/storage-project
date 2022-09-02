@@ -2,7 +2,7 @@ using System.Transactions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-using storage.ViewModels;
+using storage.Dto;
 using storage.Models;
 
 namespace storage.Controllers{

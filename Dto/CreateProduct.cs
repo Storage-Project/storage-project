@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 using storage.Models;
 
-namespace storage.ViewModels{
+namespace storage.Dto{
     public class CreateProduct{
         [Required]
         public string Description { get; set; } = string.Empty;

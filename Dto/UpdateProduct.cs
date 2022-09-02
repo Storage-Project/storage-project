@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 using storage.Models;
 
-namespace storage.ViewModels{
+namespace storage.Dto{
     public class UpdateProduct{
         public string Description { get; set; } = string.Empty;
         public decimal Price { get; set; }
