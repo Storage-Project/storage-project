@@ -52,6 +52,8 @@ TestResults/
 ######################
 *.log
 *.sqlite
+*.db-shm
+*.db-wal
 # OS generated files #
 ######################
 .DS_Store?
@@ -73,3 +75,7 @@ _[Ss]cripts
 *.nupkg
 *.ncrunchsolution
 *.dot[Cc]over
+#######################
+# Visual Studio       #
+#######################
+.vs

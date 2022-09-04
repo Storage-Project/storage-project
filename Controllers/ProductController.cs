@@ -17,14 +17,20 @@ namespace storage.Controllers{
         [Route("products")]
         //dependency injection - pegar tudo que esta no services, pegando o AppDbCOntext
         public async Task<IActionResult> GetAsync([FromServices] AppDbContext context){
-            var products =  await context.Products.AsNoTracking().Include(product => product.Category).ToListAsync();
+            var _products = context.Products;
+            if (_products == null)
+                return StatusCode(500);
+            var products =  await _products.AsNoTracking().Include(product => product.Category).ToListAsync();
             return Ok(products);
         }
 
         [HttpGet]
         [Route("products/{id}")]
         public async Task<IActionResult> GetAsync([FromServices] AppDbContext context, [FromRoute] int id){
-            var product =  await context.Products.AsNoTracking().Include(product => product.Category).FirstOrDefaultAsync(x => x.Id == id);
+            var _products = context.Products;
+            if (_products == null)
+                return StatusCode(500);
+            var product =  await _products.AsNoTracking().Include(product => product.Category).FirstOrDefaultAsync(x => x.Id == id);
             if (product==null)
                 return NotFound();
             return Ok(product);
@@ -36,7 +42,10 @@ namespace storage.Controllers{
         //products?description={description} (description included auto)
         [Route("products/filters")]
         public async Task<IActionResult> GetAsync( [FromServices] AppDbContext context, [FromQuery] string? description,  [FromQuery] string? category, [FromQuery] int? quantity){
-            var products =  await context.Products.AsNoTracking().Include(product => product.Category)
+            var _products = context.Products;
+            if (_products == null)
+                return StatusCode(500);
+            var products =  await _products.AsNoTracking().Include(product => product.Category)
             .Where(x => description==null? true : x.Description.Contains(description))
             .Where(x => category==null ? true : x.Category.Description.Contains(category))
             .Where(x => quantity==null ? true : x.Quantity <= quantity)
@@ -51,12 +60,16 @@ namespace storage.Controllers{
 
         [HttpPost("products")]
         public async Task<IActionResult> PostAsync([FromServices] AppDbContext context, [FromBody] CreateProduct product){
+            var _products = context.Products;
+            var _categories = context.Categories;
+            if (_products == null || _categories == null)
+                return StatusCode(500);
             //aplica validações (required por ex)
-            if(!ModelState.IsValid){
+            if (!ModelState.IsValid){
                 return BadRequest("data is invalid");
             }
             //var category = (from c in context.Categories where c.Description == product.Category.Description select c).FirstOrDefault();
-            var category = context.Categories.Where(c => c.Description.Equals(product.Category.Description)).FirstOrDefault();
+            var category = _categories.Where(c => c.Description.Equals(product.Category.Description)).FirstOrDefault();
             if (category == null){
                 category = product.Category;
             }
@@ -68,25 +81,30 @@ namespace storage.Controllers{
                 Create_at = DateTimeOffset.Now
             };
             try{
-                await context.Products.AddAsync(prod);
+                await _products.AddAsync(prod);
                 await context.SaveChangesAsync();
                 return Created($"v1/products/{prod.Id}", prod);
-            }catch(Exception e){
+            }catch (Exception)
+            {
                 return StatusCode(500);
             }
         }
 
         [HttpPut("products/{id}")]
         public async Task<IActionResult> PutAsync([FromServices] AppDbContext context, [FromBody] UpdateProduct product, [FromRoute] int id){
-            if(!ModelState.IsValid){
+            var _products = context.Products;
+            var _categories = context.Categories;
+            if (_products == null || _categories == null)
+                return StatusCode(500);
+            if (!ModelState.IsValid){
                 return BadRequest();
             }
-            var prod = await context.Products.FirstOrDefaultAsync(x => x.Id == id);
+            var prod = await _products.FirstOrDefaultAsync(x => x.Id == id);
             if (prod == null){
                 return NotFound();
             }
 
-            var category = context.Categories.Where(c => c.Description.Equals(product.Category.Description)).FirstOrDefault();
+            var category = _categories.Where(c => c.Description.Equals(product.Category.Description)).FirstOrDefault();
             if (category == null){
                 category = product.Category;
             }
@@ -97,7 +115,7 @@ namespace storage.Controllers{
                 prod.Quantity = product.Quantity;
                 prod.Category = category;
 
-                context.Products.Update(prod);
+                _products.Update(prod);
                 await context.SaveChangesAsync();
                 return Ok(prod);
             }catch{
@@ -108,12 +126,15 @@ namespace storage.Controllers{
 
         [HttpDelete("products/{id}")]
         public async Task<IActionResult> DeleteAsync([FromServices] AppDbContext context, [FromRoute] int id){
-            var prod = await context.Products.FirstOrDefaultAsync(x => x.Id == id);
+            var _products = context.Products;
+            if (_products == null)
+                return StatusCode(500);
+            var prod = await _products.FirstOrDefaultAsync(x => x.Id == id);
             if (prod == null){
                 return NotFound();
             }
             try{
-                context.Products.Remove(prod);
+                _products.Remove(prod);
                 await context.SaveChangesAsync();
                 return Ok();
             }catch{
@@ -124,8 +145,10 @@ namespace storage.Controllers{
     
         [HttpPut("products/sell/{id}/{quantity}")]
         public async Task<IActionResult> PutAsync([FromServices] AppDbContext context, [FromRoute] int id, [FromRoute] int quantity){
-
-            var prod = await context.Products.FirstOrDefaultAsync(x => x.Id == id);
+            var _products = context.Products;
+            if (_products == null)
+                return StatusCode(500);
+            var prod = await _products.FirstOrDefaultAsync(x => x.Id == id);
             if (prod == null){
                 return NotFound();
             }
@@ -137,7 +160,7 @@ namespace storage.Controllers{
                     return BadRequest("unable to sell this quantity");
                 }
 
-                context.Products.Update(prod);
+                _products.Update(prod);
                 await context.SaveChangesAsync();
                 return Ok(prod);
             }catch{
