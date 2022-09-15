@@ -49,5 +49,18 @@ namespace storage.Repository
         {
             throw new NotImplementedException();
         }
+
+        public async Task<IEnumerable<Product>> GetByFilters(string? description,  string? category, int? quantity){
+            var _products = _context.Products;
+            if (_products!=null){
+                return await _products.AsNoTracking().Include(product => product.Category)
+                .Where(x => description==null? true : x.Description.Contains(description))
+                .Where(x => category==null ? true : x.Category.Description.Contains(category))
+                .Where(x => quantity==null ? true : x.Quantity <= quantity)
+                .ToListAsync();
+                
+            }
+            return null;
+        }
     }
 }

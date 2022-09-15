@@ -45,20 +45,10 @@ namespace storage.Controllers{
         [HttpGet]
         [Route("products/filters")]
         public async Task<IActionResult> GetAsync([FromServices] AppDbContext context, [FromQuery] string? description,  [FromQuery] string? category, [FromQuery] int? quantity){
-            var _products = context.Products;
-            if (_products == null)
-                return StatusCode(500);
-            var products =  await _products.AsNoTracking().Include(product => product.Category)
-            .Where(x => description==null? true : x.Description.Contains(description))
-            .Where(x => category==null ? true : x.Category.Description.Contains(category))
-            .Where(x => quantity==null ? true : x.Quantity <= quantity)
-
-            .ToListAsync();
-    
+            var products = _repository.GetByFilters(description,category,quantity);
             if (products==null)
                 return NotFound();
             return Ok(products);
-
         }
 
         [HttpPost("products")]

@@ -11,6 +11,6 @@ namespace storage.Repository
         void InsertProduct(Product product);
         void DeleteProduct(int productID);
         void UpdateProduct(Product product);
-        
+        Task<IEnumerable<Product>> GetAsync(string? description,  string? category, int? quantity);
     }
 }
