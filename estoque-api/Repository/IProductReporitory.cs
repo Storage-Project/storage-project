@@ -9,8 +9,8 @@ namespace storage.Repository
         Task<IEnumerable<Product>> GetProducts();
         Task<Product> GetProductByID(int productId);
         void InsertProduct(Product product);
-        void DeleteProduct(int productID);
+        Task<bool> DeleteProduct(int productID);
         void UpdateProduct(Product product);
-        Task<IEnumerable<Product>> GetAsync(string? description,  string? category, int? quantity);
+        Task<IEnumerable<Product>> GetByFilters(string? description, string? category, int? quantity);
     }
 }
