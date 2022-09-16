@@ -15,8 +15,8 @@ namespace storage.Controllers
     public class ProductController : ControllerBase
     {
 
-        ProductRepository _repository;
-        CategoryRepository _categoryRepository;
+        private ProductRepository _repository;
+        private CategoryRepository _categoryRepository;
 
         public ProductController([FromServices] AppDbContext context)
         {
@@ -33,7 +33,7 @@ namespace storage.Controllers
                 var response = _repository.GetProducts();
                 return Ok(response);
             }
-            catch (InternalServerError e)
+            catch (InternalServerError)
             {
                 return StatusCode(500);
             }
@@ -50,7 +50,7 @@ namespace storage.Controllers
                     return NotFound();
                 return Ok(product);
             }
-            catch (InternalServerError e)
+            catch (InternalServerError)
             {
                 return StatusCode(500);
             }
@@ -67,7 +67,7 @@ namespace storage.Controllers
                     return NotFound();
                 return Ok(products);
             }
-            catch (InternalServerError e)
+            catch (InternalServerError)
             {
                 return StatusCode(500);
             }

@@ -6,10 +6,10 @@ namespace storage.Repository
 {
     public interface ICategoryRepository
     {
-        Task<IEnumerable<Category>> GetCategorys();
+        Task<IEnumerable<Category>> GetCategories();
         Task<Category> GetCategoryByID(int categoryId);
         void InsertCategory(Category category);
-        void DeleteCategory(int categoryID);
+        Task<bool> DeleteCategory(int categoryID);
         void UpdateCategory(Category category);
         
     }
