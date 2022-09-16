@@ -4,33 +4,37 @@ using Microsoft.EntityFrameworkCore;
 
 using storage.Dto;
 using storage.Models;
+using storage.Repository;
 
 namespace storage.Controllers{
 
     [ApiController]
     [Route("v1")]
-    public class ProductController : ControllerBase{
+    public class ProductController : ControllerBase {
 
-        //por padrao se nao deixar  nada ele entende como get
+        ProductRepository _repository;
+        CategoryRepository _categoryRepository;
+
+        public ProductController([FromServices] AppDbContext context){
+            _repository = new ProductRepository(context);
+            _categoryRepository = new CategoryRepository(context);
+        }
+
         [HttpGet]
-        //ele vai concatenar e a ur vai ser v1/products
         [Route("products")]
-        //dependency injection - pegar tudo que esta no services, pegando o AppDbCOntext
-        public async Task<IActionResult> GetAsync([FromServices] AppDbContext context){
-            var _products = context.Products;
-            if (_products == null)
+        public async Task<IActionResult> GetAsync(){
+            var response = _repository.GetProducts();
+            if(response == null){
                 return StatusCode(500);
-            var products =  await _products.AsNoTracking().Include(product => product.Category).ToListAsync();
-            return Ok(products);
+            }
+            return Ok(response);
         }
 
         [HttpGet]
         [Route("products/{id}")]
-        public async Task<IActionResult> GetAsync([FromServices] AppDbContext context, [FromRoute] int id){
-            var _products = context.Products;
-            if (_products == null)
-                return StatusCode(500);
-            var product =  await _products.AsNoTracking().Include(product => product.Category).FirstOrDefaultAsync(x => x.Id == id);
+        public async Task<IActionResult> GetAsync([FromRoute] int id){
+
+            var product =  _repository.GetProductByID(id);
             if (product==null)
                 return NotFound();
             return Ok(product);
@@ -39,9 +43,8 @@ namespace storage.Controllers{
         }
 
         [HttpGet]
-        //products?description={description} (description included auto)
         [Route("products/filters")]
-        public async Task<IActionResult> GetAsync( [FromServices] AppDbContext context, [FromQuery] string? description,  [FromQuery] string? category, [FromQuery] int? quantity){
+        public async Task<IActionResult> GetAsync([FromServices] AppDbContext context, [FromQuery] string? description,  [FromQuery] string? category, [FromQuery] int? quantity){
             var _products = context.Products;
             if (_products == null)
                 return StatusCode(500);
