@@ -3,6 +3,8 @@ using System.Security.Cryptography.X509Certificates;
 using System.Data.SqlTypes;
 
 using Microsoft.AspNetCore.Rewrite;
+using Microsoft.EntityFrameworkCore;
+
 using storage.Repository;
 using storage;
 
@@ -18,6 +20,13 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
+
+
+using (var scope = app.Services.CreateScope())
+{
+    var dataContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    dataContext.Database.Migrate();
+}
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
