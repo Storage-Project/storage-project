@@ -1,5 +1,3 @@
-using System.Transactions;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 using storage.Dto;
@@ -38,7 +36,7 @@ namespace storage.Repository
         }
 
 
-        public async Task<Product> GetProductByID(int productId)
+        public async Task<Product?> GetProductByID(int productId)
         {
             var _products = _context.Products;
             if (_products != null)

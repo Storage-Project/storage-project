@@ -45,7 +45,7 @@ namespace storage.Controllers
             {
                 var product = await _repository.GetProductByID(id);
                 if (product == null)
-                    return NotFound();
+                    return NoContent();
                 return Ok(product);
             }
             catch (InternalServerError)
