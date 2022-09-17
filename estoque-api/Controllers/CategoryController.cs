@@ -28,7 +28,7 @@ namespace storage.Controllers
         {
             try
             {
-                var response = _categoryRepository.GetCategories();
+                var response = await _categoryRepository.GetCategories();
                 return Ok(response);
             }
             catch (InternalServerError)

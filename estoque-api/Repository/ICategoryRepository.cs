@@ -8,9 +8,9 @@ namespace storage.Repository
     {
         Task<IEnumerable<Category>> GetCategories();
         Task<Category> GetCategoryByID(int categoryId);
-        void InsertCategory(Category category);
+        Task<Category> InsertCategory(Category category);
         Task<bool> DeleteCategory(int categoryID);
-        void UpdateCategory(Category category);
+        Task<Category> UpdateCategory(Category category, int id);
         
     }
 }

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using storage.Models;
+using storage.Dto;
 
 namespace storage.Repository
 {
@@ -8,9 +9,9 @@ namespace storage.Repository
     {
         Task<IEnumerable<Product>> GetProducts();
         Task<Product> GetProductByID(int productId);
-        void InsertProduct(Product product);
+        Task<Product> InsertProduct(CreateProduct product);
         Task<bool> DeleteProduct(int productID);
-        void UpdateProduct(Product product);
+        Task<Product> UpdateProduct(UpdateProduct product, int id);
         Task<IEnumerable<Product>> GetByFilters(string? description, string? category, int? quantity);
     }
 }

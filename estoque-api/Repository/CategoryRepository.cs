@@ -65,16 +65,15 @@ namespace storage.Controllers
                 throw new InternalServerError();
             }
         }
-        public void InsertCategory(Category category)
+
+        public Task<Category> InsertCategory(Category category)
         {
             throw new NotImplementedException();
         }
 
-        public void UpdateCategory(Category category)
+        public Task<Category> UpdateCategory(Category category, int id)
         {
             throw new NotImplementedException();
         }
-
-
     }
 }
