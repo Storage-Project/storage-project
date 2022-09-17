@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 
 using storage.Models;
@@ -40,7 +36,7 @@ namespace storage.Controllers
         }
 
 
-        public async Task<Category> GetCategoryByID(int categoryId)
+        public async Task<Category?> GetCategoryByID(int categoryId)
         {
             var _categories = _context.Categories;
             if (_categories != null)
