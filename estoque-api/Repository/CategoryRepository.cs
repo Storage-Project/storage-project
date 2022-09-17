@@ -4,7 +4,7 @@ using storage.Models;
 using storage.Repository;
 using storage.Exceptions;
 
-namespace storage.Controllers
+namespace storage.Repository
 {
     public class CategoryRepository : ICategoryRepository
     {

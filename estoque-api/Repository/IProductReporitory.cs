@@ -5,7 +5,7 @@ using storage.Dto;
 
 namespace storage.Repository
 {
-    public interface IProductReporitory
+    public interface IProductRepository
     {
         Task<IEnumerable<Product>> GetProducts();
         Task<Product?> GetProductByID(int productId);

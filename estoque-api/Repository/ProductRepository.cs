@@ -7,7 +7,7 @@ using storage.Exceptions;
 
 namespace storage.Repository
 {
-    public class ProductRepository : IProductReporitory
+    public class ProductRepository : IProductRepository
     {
         private AppDbContext _context;
 
