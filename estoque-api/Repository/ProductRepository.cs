@@ -85,7 +85,7 @@ namespace storage.Repository
             }
         }
 
-        public async Task<Product> UpdateProduct(UpdateProduct product, int id)
+        public async Task<Product?> UpdateProduct(UpdateProduct product, int id)
         {
             var _products = _context.Products;
             var _categories = _context.Categories;

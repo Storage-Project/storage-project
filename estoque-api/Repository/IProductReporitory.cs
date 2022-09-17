@@ -11,7 +11,7 @@ namespace storage.Repository
         Task<Product?> GetProductByID(int productId);
         Task<Product> InsertProduct(CreateProduct product);
         Task<bool> DeleteProduct(int productID);
-        Task<Product> UpdateProduct(UpdateProduct product, int id);
+        Task<Product?> UpdateProduct(UpdateProduct product, int id);
         Task<IEnumerable<Product>> GetByFilters(string? description, string? category, int? quantity);
     }
 }
