@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
 using storage.Exceptions;
-
+using storage.Repository;
 
 namespace storage.Controllers
 {
@@ -15,11 +15,11 @@ namespace storage.Controllers
     [Route("v1")]
     public class CategoryController : Controller
     {
-        private CategoryRepository _categoryRepository;
+        private ICategoryRepository _categoryRepository;
 
-        public CategoryController([FromServices] AppDbContext context)
+        public CategoryController(ICategoryRepository categoryRepository)
         {
-            _categoryRepository = new CategoryRepository(context);
+            _categoryRepository = categoryRepository;
         }
 
         [HttpGet]

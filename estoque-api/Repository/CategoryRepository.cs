@@ -1,14 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 
 using storage.Models;
 using storage.Repository;
 using storage.Exceptions;
 
-namespace storage.Controllers
+namespace storage.Repository
 {
     public class CategoryRepository : ICategoryRepository
     {
@@ -40,7 +36,7 @@ namespace storage.Controllers
         }
 
 
-        public async Task<Category> GetCategoryByID(int categoryId)
+        public async Task<Category?> GetCategoryByID(int categoryId)
         {
             var _categories = _context.Categories;
             if (_categories != null)

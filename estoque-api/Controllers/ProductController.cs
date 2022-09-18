@@ -15,11 +15,11 @@ namespace storage.Controllers
     public class ProductController : ControllerBase
     {
 
-        private ProductRepository _repository;
+        private IProductRepository _repository;
 
-        public ProductController([FromServices] AppDbContext context)
+        public ProductController(IProductRepository productReporitory)
         {
-            _repository = new ProductRepository(context);
+            _repository = productReporitory;
         }
 
         [HttpGet]
@@ -45,7 +45,7 @@ namespace storage.Controllers
             {
                 var product = await _repository.GetProductByID(id);
                 if (product == null)
-                    return NotFound();
+                    return NoContent();
                 return Ok(product);
             }
             catch (InternalServerError)

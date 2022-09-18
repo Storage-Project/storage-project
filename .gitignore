@@ -80,3 +80,4 @@ _[Ss]cripts
 # Visual Studio       #
 #######################
 .vs
+.vscode

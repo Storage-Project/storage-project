@@ -1,5 +1,3 @@
-using System.Transactions;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 using storage.Dto;
@@ -9,7 +7,7 @@ using storage.Exceptions;
 
 namespace storage.Repository
 {
-    public class ProductRepository : IProductReporitory
+    public class ProductRepository : IProductRepository
     {
         private AppDbContext _context;
 
@@ -38,7 +36,7 @@ namespace storage.Repository
         }
 
 
-        public async Task<Product> GetProductByID(int productId)
+        public async Task<Product?> GetProductByID(int productId)
         {
             var _products = _context.Products;
             if (_products != null)
@@ -87,7 +85,7 @@ namespace storage.Repository
             }
         }
 
-        public async Task<Product> UpdateProduct(UpdateProduct product, int id)
+        public async Task<Product?> UpdateProduct(UpdateProduct product, int id)
         {
             var _products = _context.Products;
             var _categories = _context.Categories;
