@@ -5,171 +5,161 @@ using Microsoft.EntityFrameworkCore;
 using storage.Dto;
 using storage.Models;
 using storage.Repository;
+using storage.Exceptions;
 
-namespace storage.Controllers{
+namespace storage.Controllers
+{
 
     [ApiController]
     [Route("v1")]
-    public class ProductController : ControllerBase {
+    public class ProductController : ControllerBase
+    {
 
-        ProductRepository _repository;
-        CategoryRepository _categoryRepository;
+        private IProductRepository _repository;
 
-        public ProductController([FromServices] AppDbContext context){
-            _repository = new ProductRepository(context);
-            _categoryRepository = new CategoryRepository(context);
+        public ProductController(IProductRepository productReporitory)
+        {
+            _repository = productReporitory;
         }
 
         [HttpGet]
         [Route("products")]
-        public async Task<IActionResult> GetAsync(){
-            var response = _repository.GetProducts();
-            if(response == null){
+        public async Task<IActionResult> GetAsync()
+        {
+            try
+            {
+                var response = await _repository.GetProducts();
+                return Ok(response);
+            }
+            catch (InternalServerError)
+            {
                 return StatusCode(500);
             }
-            return Ok(response);
         }
 
         [HttpGet]
         [Route("products/{id}")]
-        public async Task<IActionResult> GetAsync([FromRoute] int id){
-
-            var product =  _repository.GetProductByID(id);
-            if (product==null)
-                return NotFound();
-            return Ok(product);
-            
-
+        public async Task<IActionResult> GetAsync([FromRoute] int id)
+        {
+            try
+            {
+                var product = await _repository.GetProductByID(id);
+                if (product == null)
+                    return NoContent();
+                return Ok(product);
+            }
+            catch (InternalServerError)
+            {
+                return StatusCode(500);
+            }
         }
 
         [HttpGet]
         [Route("products/filters")]
-        public async Task<IActionResult> GetAsync([FromServices] AppDbContext context, [FromQuery] string? description,  [FromQuery] string? category, [FromQuery] int? quantity){
-            var _products = context.Products;
-            if (_products == null)
+        public async Task<IActionResult> GetAsync([FromServices] AppDbContext context, [FromQuery] string? description, [FromQuery] string? category, [FromQuery] int? quantity)
+        {
+            try
+            {
+                var products = await _repository.GetByFilters(description, category, quantity);
+                if (products == null)
+                    return NotFound();
+                return Ok(products);
+            }
+            catch (InternalServerError)
+            {
                 return StatusCode(500);
-            var products =  await _products.AsNoTracking().Include(product => product.Category)
-            .Where(x => description==null? true : x.Description.Contains(description))
-            .Where(x => category==null ? true : x.Category.Description.Contains(category))
-            .Where(x => quantity==null ? true : x.Quantity <= quantity)
-
-            .ToListAsync();
-    
-            if (products==null)
-                return NotFound();
-            return Ok(products);
-
+            }
         }
 
         [HttpPost("products")]
-        public async Task<IActionResult> PostAsync([FromServices] AppDbContext context, [FromBody] CreateProduct product){
-            var _products = context.Products;
-            var _categories = context.Categories;
-            if (_products == null || _categories == null)
-                return StatusCode(500);
-            //aplica validações (required por ex)
-            if (!ModelState.IsValid){
-                return BadRequest("data is invalid");
-            }
-            //var category = (from c in context.Categories where c.Description == product.Category.Description select c).FirstOrDefault();
-            var category = _categories.Where(c => c.Description.Equals(product.Category.Description)).FirstOrDefault();
-            if (category == null){
-                category = product.Category;
-            }
-            var prod = new Product{
-                Description = product.Description,
-                Category = category,
-                Price = product.Price,
-                Quantity = product.Quantity,
-                Create_at = DateTimeOffset.Now
-            };
-            try{
-                await _products.AddAsync(prod);
-                await context.SaveChangesAsync();
+        public async Task<IActionResult> PostAsync([FromBody] CreateProduct product)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest();
+
+            try
+            {
+                var prod = await _repository.InsertProduct(product);
                 return Created($"v1/products/{prod.Id}", prod);
-            }catch (Exception)
+            }
+            catch (InternalServerError)
             {
                 return StatusCode(500);
             }
         }
 
         [HttpPut("products/{id}")]
-        public async Task<IActionResult> PutAsync([FromServices] AppDbContext context, [FromBody] UpdateProduct product, [FromRoute] int id){
-            var _products = context.Products;
-            var _categories = context.Categories;
-            if (_products == null || _categories == null)
-                return StatusCode(500);
-            if (!ModelState.IsValid){
+        public async Task<IActionResult> PutAsync([FromServices] AppDbContext context, [FromBody] UpdateProduct product, [FromRoute] int id)
+        {
+            if (!ModelState.IsValid)
                 return BadRequest();
-            }
-            var prod = await _products.FirstOrDefaultAsync(x => x.Id == id);
-            if (prod == null){
-                return NotFound();
-            }
 
-            var category = _categories.Where(c => c.Description.Equals(product.Category.Description)).FirstOrDefault();
-            if (category == null){
-                category = product.Category;
-            }
-
-            try{
-                prod.Description = product.Description;
-                prod.Price = product.Price;
-                prod.Quantity = product.Quantity;
-                prod.Category = category;
-
-                _products.Update(prod);
-                await context.SaveChangesAsync();
+            try
+            {
+                var prod = await _repository.UpdateProduct(product, id);
+                if (prod == null)
+                    return NotFound();
                 return Ok(prod);
-            }catch{
+            }
+            catch (InternalServerError)
+            {
                 return StatusCode(500);
             }
-
         }
 
         [HttpDelete("products/{id}")]
-        public async Task<IActionResult> DeleteAsync([FromServices] AppDbContext context, [FromRoute] int id){
-            var _products = context.Products;
-            if (_products == null)
-                return StatusCode(500);
-            var prod = await _products.FirstOrDefaultAsync(x => x.Id == id);
-            if (prod == null){
-                return NotFound();
+        public async Task<IActionResult> DeleteAsync([FromServices] AppDbContext context, [FromRoute] int id)
+        {
+            var result = false;
+            try
+            {
+                result = await _repository.DeleteProduct(id);
             }
-            try{
-                _products.Remove(prod);
-                await context.SaveChangesAsync();
+            catch (InternalServerError)
+            {
+                return StatusCode(500);
+            }
+
+            if (result == true)
                 return Ok();
-            }catch{
-                return StatusCode(500);
-            }
-
-        }
-    
-        [HttpPut("products/sell/{id}/{quantity}")]
-        public async Task<IActionResult> PutAsync([FromServices] AppDbContext context, [FromRoute] int id, [FromRoute] int quantity){
-            var _products = context.Products;
-            if (_products == null)
-                return StatusCode(500);
-            var prod = await _products.FirstOrDefaultAsync(x => x.Id == id);
-            if (prod == null){
+            else
                 return NotFound();
-            }
+        }
 
-            try{
-                if ((prod.Quantity - quantity) >= 0){
-                    prod.Quantity = prod.Quantity - quantity;
-                }else{
+
+        [HttpPut("products/sell/{id}/{quantity}")]
+        public async Task<IActionResult> PutAsync([FromServices] AppDbContext context, [FromRoute] int id, [FromRoute] int quantity)
+        {
+            try
+            {
+                var product = await _repository.GetProductByID(id);
+                if (product == null)
+                    return NotFound();
+
+                if ((product.Quantity - quantity) >= 0)
+                    product.Quantity = product.Quantity - quantity;
+                else
                     return BadRequest("unable to sell this quantity");
-                }
 
-                _products.Update(prod);
-                await context.SaveChangesAsync();
-                return Ok(prod);
-            }catch{
+                var to_update = new UpdateProduct
+                {
+                    Description = product.Description,
+                    Price = product.Price,
+                    Quantity = product.Quantity,
+                    Category = product.Category,
+
+                };
+                var prod_updated = _repository.UpdateProduct(to_update, id);
+                if (prod_updated == null)
+                    return StatusCode(500);
+
+                return Ok(prod_updated);
+
+            }
+            catch (InternalServerError)
+            {
                 return StatusCode(500);
             }
-
         }
 
     }
