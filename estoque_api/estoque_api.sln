@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32602.215
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "estoque_api", "estoque_api.csproj", "{3147C07B-B8DE-48DE-B36A-C2571BAD1AE5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "estoque_api.tests", "..\estoque_api.tests\estoque_api.tests.csproj", "{0A6B2C15-B9FE-4FEB-B49A-C009F601DA1E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3147C07B-B8DE-48DE-B36A-C2571BAD1AE5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3147C07B-B8DE-48DE-B36A-C2571BAD1AE5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3147C07B-B8DE-48DE-B36A-C2571BAD1AE5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3147C07B-B8DE-48DE-B36A-C2571BAD1AE5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0A6B2C15-B9FE-4FEB-B49A-C009F601DA1E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0A6B2C15-B9FE-4FEB-B49A-C009F601DA1E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0A6B2C15-B9FE-4FEB-B49A-C009F601DA1E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0A6B2C15-B9FE-4FEB-B49A-C009F601DA1E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {55DB5B6D-9C5B-4A08-AAEF-261C1C34D14D}
+	EndGlobalSection
+EndGlobal
