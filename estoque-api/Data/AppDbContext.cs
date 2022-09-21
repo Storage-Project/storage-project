@@ -10,7 +10,6 @@ namespace storage{
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-
             optionsBuilder.UseSqlite(connectionString:"DataSource=app.db;Cache=Shared");
         }
     }
