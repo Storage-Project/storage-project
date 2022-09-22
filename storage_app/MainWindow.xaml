@@ -11,45 +11,77 @@
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <Grid Grid.Row="0">
+        <Label 
+            Grid.Row="0"
+            VerticalContentAlignment="Center"
+            HorizontalContentAlignment="Center"
+            FontSize="32"
+            FontWeight="SemiBold">
+            Controle de Estoque
+        </Label>
+        <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="auto"/>
                 <ColumnDefinition Width="auto"/>
                 <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="auto"/>
             </Grid.ColumnDefinitions>
-            <Button Content="Adicionar" Grid.Column="0"></Button>
-            <Button Content="Excluir" Grid.Column="1"></Button>
-            <Button Content="Simular venda" Grid.Column="2"></Button>
+            <Button Margin="5 3" Content="Adicionar" Grid.Column="0"/>
+            <Button Margin="5 3" Content="Excluir" Grid.Column="1"/>
+            <Button Margin="5 3" Content="Simular venda" Grid.Column="2"/>
+            <Button Margin="5 3" Content="Gerar Relatório" Grid.Column="3"/>
         </Grid>
-        <Grid Grid.Row="1">
+        <Grid Grid.Row="2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="9*"/>
                 <ColumnDefinition Width="1*"/>
             </Grid.ColumnDefinitions>
-            <TextBox Grid.Column="0" Padding="5 3" Margin="5 3"></TextBox>
-            <Button Grid.Column="1">Pesquisar</Button>
+            <TextBox Grid.Column="0" Margin="5 3"></TextBox>
+            <Button Grid.Column="1" Margin="0 3 5 3">Pesquisar</Button>
         </Grid>
-        <Grid Grid.Row="2">
+        <Grid Grid.Row="3">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="2*"/>
-                <ColumnDefinition Width="0.5*"/>
-                <ColumnDefinition Width="1.5*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <ListView Margin="5" ItemsSource="{d:SampleData}" Grid.Column="0">
+            <ListView Margin="5" Grid.Column="0">
                 
             </ListView>
-            <StackPanel Margin="0, 5,0,40" Name="StackPanel1" Grid.Column="1">
-                <Label Height="28" Name="Label1" Width="auto">Código</Label>
-                <Label Height="28" Name="Lebe12" Width="auto">Nome</Label>
-                <Label Height="28" Name="Label3" Width="auto">Descrição</Label>
-            </StackPanel>
-            <StackPanel Margin="0, 5,5,40" Grid.Column="2">
-                <TextBox Height="28" Width="auto">Digite o codigo</TextBox>
-                <TextBox Height="28" Width="auto">Digite o nome</TextBox>
-                <TextBox Height="28" Width="auto">Digite a descição</TextBox>
-            </StackPanel>
-            <Button Width="100" Content="Teste" Grid.Column="2" Margin="190,89,10,5" />
+
+            <Grid Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="4*"/>
+                    <RowDefinition Height="1*"/>
+                </Grid.RowDefinitions>
+
+                <Border BorderBrush="Gray" BorderThickness="2" Grid.Row="0">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="3*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel Margin="0, 5,0,40" Grid.Column="0">
+                            <Label Height="28" Name="Label1" Width="auto">Código</Label>
+                            <Label Height="28" Name="Lebe12" Width="auto">Nome</Label>
+                            <Label Height="28" Name="Label3" Width="auto">Descrição</Label>
+                        </StackPanel>
+                        <StackPanel Margin="0, 5,5,40" Grid.Column="1">
+                            <TextBox Height="28" Width="auto">Digite o codigo</TextBox>
+                            <TextBox Height="28" Width="auto">Digite o nome</TextBox>
+                            <TextBox Height="28" Width="auto">Digite a descição</TextBox>
+                        </StackPanel>
+                    </Grid>
+                </Border>
+                <Button
+                    Width="100"
+                    Content="Salvar"
+                    Grid.Row="1"
+                    Height="35"/>
+            </Grid>
+            
         </Grid>
         
         
