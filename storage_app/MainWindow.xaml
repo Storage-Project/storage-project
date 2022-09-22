@@ -3,15 +3,119 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:wpf_demo_course" xmlns:views="clr-namespace:storage_app.Views"
+        xmlns:local="clr-namespace:storage_app"
+        xmlns:views="clr-namespace:storage_app.Views"
         mc:Ignorable="d"
-        Title="App Controle de Estoque"
-        Height="450"
-        Width="800"
-        MinHeight="450"
-        MinWidth="800">
+        Title="Controle de Estoque" Height="450" Width="800" MinHeight="450" MinWidth="800">
+    <Grid Margin="10 5 10 10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Label 
+            Grid.Row="0"
+            VerticalContentAlignment="Center"
+            HorizontalContentAlignment="Center"
+            FontSize="32"
+            FontWeight="SemiBold">
+            Controle de Estoque
+        </Label>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="auto"/>
+            </Grid.ColumnDefinitions>
+            <Button Margin="5 3" Content="Adicionar" Grid.Column="0"/>
+            <Button Margin="5 3" Content="Excluir" Grid.Column="1"/>
+            <Button Margin="5 3" Content="Simular venda" Grid.Column="2"/>
+            <Button Margin="5 3" Content="Gerar Relatório" Grid.Column="3"/>
+        </Grid>
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="5*"/>
+                <ColumnDefinition Width="3*"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+            <TextBox Grid.Column="0" Margin="5 3"/>
+            <ComboBox Grid.Column="1" Margin="5 3 5 3">
+                <ComboBoxItem>Livro</ComboBoxItem>
+                <ComboBoxItem>Jogo</ComboBoxItem>
+            </ComboBox>
+            <Button Grid.Column="2" Margin="0 3 5 3" Content="Pesquisar"/>
+        </Grid>
+        <Grid Grid.Row="3" Margin="5">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <views:StorageListView Grid.Column="0" Margin="0 0 5 0"/>
 
-    <Grid>
-        <views:StorageListView />
+            <Grid Grid.Column="1" Margin="5 0 0 0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="4*"/>
+                    <RowDefinition Height="1*"/>
+                </Grid.RowDefinitions>
+
+                <Border BorderBrush="Gray" BorderThickness="2" Grid.Row="0">
+                    <Grid Margin="5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="3*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel Grid.Column="0">
+                            <Label Height="28" Name="Label1" Width="auto">Código</Label>
+                            <Label Height="28" Name="Lebe12" Width="auto">Nome</Label>
+                            <Label Height="28" Name="Label3" Width="auto">Descrição</Label>
+                        </StackPanel>
+                        <StackPanel Grid.Column="1">
+                            <TextBox 
+                                VerticalContentAlignment="Center" 
+                                Height="28" 
+                                Width="auto">
+                                Digite o codigo
+                            </TextBox>
+                            <TextBox 
+                                VerticalContentAlignment="Center" 
+                                Height="28" 
+                                Width="auto">
+                                Digite o nome
+                            </TextBox>
+                            <TextBox 
+                                VerticalContentAlignment="Center" 
+                                Height="28" 
+                                Width="auto">
+                                Digite a descição
+                            </TextBox>
+                        </StackPanel>
+                    </Grid>
+                </Border>
+                <Grid  Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Button
+                        IsEnabled="False"
+                        Grid.Column="1"
+                        Width="100"
+                        Content="Cancelar"
+                        Height="35"/>
+                    <Button
+                        IsEnabled="False"
+                        Grid.Column="2"
+                        Width="100"
+                        Content="Salvar"
+                        Height="35"/>
+                </Grid>
+            </Grid>
+        </Grid>
+        
+        
     </Grid>
 </Window>

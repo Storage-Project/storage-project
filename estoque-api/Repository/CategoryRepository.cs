@@ -62,14 +62,45 @@ namespace storage.Repository
             }
         }
 
-        public Task<Category> InsertCategory(Category category)
+        public async Task<Category?> InsertCategory(Category category)
         {
-            throw new NotImplementedException();
+            var _categories = _context.Categories;
+            if (_categories == null)
+                throw new InternalServerError();
+
+            try
+            {
+                await _categories.AddAsync(category);
+                await _context.SaveChangesAsync();
+                return category;
+            }
+            catch (Exception)
+            {
+                throw new InternalServerError();
+            }
         }
 
-        public Task<Category> UpdateCategory(Category category, int id)
+        public async Task<Category?> UpdateCategory(Category category, int id)
         {
-            throw new NotImplementedException();
+            var _categories = _context.Categories;
+            if (_categories == null)
+                throw new InternalServerError();
+
+            var cat = await _categories.FirstOrDefaultAsync(x => x.Id == id);
+            if (cat == null)
+                return null;
+
+            try
+            {
+                cat.Description = category.Description;
+                _categories.Update(cat);
+                await _context.SaveChangesAsync();
+                return cat;
+            }
+            catch
+            {
+                throw new InternalServerError();
+            }
         }
     }
 }

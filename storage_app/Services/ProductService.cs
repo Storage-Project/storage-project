@@ -7,9 +7,9 @@ using Newtonsoft.Json;
 
 using storage_app.Models;
 
-namespace storage_app.Controllers
+namespace storage_app.Services
 {
-    internal class ProductController
+    internal class ProductService
     {
         private string _baseUrl = "https://estoque-api.azurewebsites.net";
 

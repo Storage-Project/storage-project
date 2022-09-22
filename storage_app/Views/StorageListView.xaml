@@ -6,12 +6,8 @@
              xmlns:local="clr-namespace:storage_app.Views"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-        <Border 
-            BorderBrush="Gray"
-            BorderThickness="3">
-            
-            <ListView></ListView>
-        </Border>
-    </Grid>
+    <ListView>
+        <ListViewItem>O Hobbit</ListViewItem>
+        <ListViewItem>O Silmarillion</ListViewItem>
+    </ListView>
 </UserControl>
