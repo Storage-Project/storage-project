@@ -4,9 +4,13 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:storage_app"
+        xmlns:viewmodel="clr-namespace:storage_app.ViewModels"
         xmlns:views="clr-namespace:storage_app.Views"
         mc:Ignorable="d"
         Title="Controle de Estoque" Height="450" Width="800" MinHeight="450" MinWidth="800">
+    <Window.DataContext>
+        <viewmodel:MainWindowViewModel/>
+    </Window.DataContext>
     <Grid Margin="10 5 10 10">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
@@ -52,70 +56,8 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <views:StorageListView Grid.Column="0" Margin="0 0 5 0"/>
-
-            <Grid Grid.Column="1" Margin="5 0 0 0">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="4*"/>
-                    <RowDefinition Height="1*"/>
-                </Grid.RowDefinitions>
-
-                <Border BorderBrush="Gray" BorderThickness="2" Grid.Row="0">
-                    <Grid Margin="5">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="1*"/>
-                            <ColumnDefinition Width="3*"/>
-                        </Grid.ColumnDefinitions>
-
-                        <StackPanel Grid.Column="0">
-                            <Label Height="28" Name="Label1" Width="auto">Código</Label>
-                            <Label Height="28" Name="Lebe12" Width="auto">Nome</Label>
-                            <Label Height="28" Name="Label3" Width="auto">Descrição</Label>
-                        </StackPanel>
-                        <StackPanel Grid.Column="1">
-                            <TextBox 
-                                VerticalContentAlignment="Center" 
-                                Height="28" 
-                                Width="auto">
-                                Digite o codigo
-                            </TextBox>
-                            <TextBox 
-                                VerticalContentAlignment="Center" 
-                                Height="28" 
-                                Width="auto">
-                                Digite o nome
-                            </TextBox>
-                            <TextBox 
-                                VerticalContentAlignment="Center" 
-                                Height="28" 
-                                Width="auto">
-                                Digite a descição
-                            </TextBox>
-                        </StackPanel>
-                    </Grid>
-                </Border>
-                <Grid  Grid.Row="1">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
-                    <Button
-                        IsEnabled="False"
-                        Grid.Column="1"
-                        Width="100"
-                        Content="Cancelar"
-                        Height="35"/>
-                    <Button
-                        IsEnabled="False"
-                        Grid.Column="2"
-                        Width="100"
-                        Content="Salvar"
-                        Height="35"/>
-                </Grid>
-            </Grid>
+            <views:StorageListView DataContext="{Binding Products}" Grid.Column="0" Margin="0 0 5 0"/>
+            <views:ItemDetailView Grid.Column="1" Margin="5 0 0 0"/>
         </Grid>
-        
-        
     </Grid>
 </Window>

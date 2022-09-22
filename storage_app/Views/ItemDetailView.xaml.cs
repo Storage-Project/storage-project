@@ -12,25 +12,16 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using Newtonsoft.Json;
-using storage_app.Models;
-using storage_app.ViewModels;
 
-namespace storage_app
+namespace storage_app.Views
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interação lógica para ItemDetailView.xam
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class ItemDetailView : UserControl
     {
-        public MainWindowViewModel MainWindowViewModel;
-
-        public MainWindow()
+        public ItemDetailView()
         {
-            MainWindowViewModel = new MainWindowViewModel();
-
             InitializeComponent();
         }
     }
