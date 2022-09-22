@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace storage_app.Models
 {
-    internal class Product
+    public class Product
     {
         public int Id { get; set; }
         public string Description { get; set; } = string.Empty;
