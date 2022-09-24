@@ -1,77 +1,42 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
 
 using storage_app.Models;
 
 namespace storage_app.Services
 {
-    internal class ProductService : IProductService
+    internal class ProductService : ServiceBase, IProductService
     {
-        private string _baseUrl = "https://estoque-api.azurewebsites.net";
 
         public async Task<List<Product>> GetProducts()
         {
-            List<Product> products = new List<Product>();
-            using (var client = new HttpClient())
-            {
-                client.BaseAddress = new Uri(_baseUrl);
-                client.DefaultRequestHeaders.Clear();
-                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                HttpResponseMessage Res = await client.GetAsync("v1/products");
-                if (Res.IsSuccessStatusCode)
-                {
-                    var EmpResponse = Res.Content.ReadAsStringAsync().Result;
-                    products = JsonConvert.DeserializeObject<List<Product>>(EmpResponse);
+            List<Product> products = new();
 
-                    return products;
-                }
+            var _products = await GetValueAsync<List<Product>>("v1/products");
 
-            }
-            return null;
+            if (_products != null) 
+                products = _products;
+
+            return products;
         }
 
-        public async Task<Product> GetProductById(int Id)
+        public async Task<Product?> GetProductById(int Id)
         {
-            Product product = null;
-            using (var client = new HttpClient())
-            {
-                client.BaseAddress = new Uri(_baseUrl);
-                client.DefaultRequestHeaders.Clear();
-                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                HttpResponseMessage Res = await client.GetAsync(String.Concat("v1/products/", Id));
-                if (Res.IsSuccessStatusCode)
-                {
-                    var EmpResponse = Res.Content.ReadAsStringAsync().Result;
-                    product = JsonConvert.DeserializeObject<Product>(EmpResponse);
+            Product? product = null;
+            string Path = String.Concat("v1/products/", Id);
 
-                    return product;
-                }
+            var _product = await GetValueAsync<Product>(Path);
 
-            }
-            return null;
+            if (_product != null)
+                product = _product;
+
+            return product;
         }
-        public async Task<bool> InsertProduct(Product prod)
+
+        public async Task<bool> InsertProduct(Product product)
         {
-            using (var client = new HttpClient())
-            {
-                client.BaseAddress = new Uri(_baseUrl);
-
-                var myContent = JsonConvert.SerializeObject(prod);
-                var buffer = System.Text.Encoding.UTF8.GetBytes(myContent);
-                var byteContent = new ByteArrayContent(buffer);
-
-                HttpResponseMessage Res = await client.PostAsync("/products", byteContent);
-                if (Res.IsSuccessStatusCode)
-                {
-                    return true;
-                }
-
-            }
-            return false;
+            return await PostAsync<Product>("/products", product);
         }
 
         public Task<Product> GetProductByDescription(string Name)
