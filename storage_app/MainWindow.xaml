@@ -7,10 +7,7 @@
         xmlns:viewmodel="clr-namespace:storage_app.ViewModels"
         xmlns:views="clr-namespace:storage_app.Views"
         mc:Ignorable="d"
-        Title="Controle de Estoque" Height="450" Width="800" MinHeight="450" MinWidth="800">
-    <Window.DataContext>
-        <viewmodel:MainWindowViewModel/>
-    </Window.DataContext>
+        Title="Storage Control" Height="450" Width="800" MinHeight="450" MinWidth="800">
     <Grid Margin="10 5 10 10">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
@@ -24,7 +21,7 @@
             HorizontalContentAlignment="Center"
             FontSize="32"
             FontWeight="SemiBold">
-            Controle de Estoque
+            Storage Control
         </Label>
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
@@ -33,10 +30,10 @@
                 <ColumnDefinition Width="auto"/>
                 <ColumnDefinition Width="auto"/>
             </Grid.ColumnDefinitions>
-            <Button Margin="5 3" Content="Adicionar" Grid.Column="0"/>
-            <Button Margin="5 3" Content="Excluir" Grid.Column="1"/>
-            <Button Margin="5 3" Content="Simular venda" Grid.Column="2"/>
-            <Button Margin="5 3" Content="Gerar Relatório" Grid.Column="3"/>
+            <Button Margin="5 3" Content="Insert" Grid.Column="0"/>
+            <Button Margin="5 3" Content="Delete" Grid.Column="1"/>
+            <Button Margin="5 3" Content="Sell" Grid.Column="2"/>
+            <Button Margin="5 3" Content="Generate Report" Grid.Column="3"/>
         </Grid>
         <Grid Grid.Row="2">
             <Grid.ColumnDefinitions>
@@ -45,9 +42,15 @@
                 <ColumnDefinition Width="1*"/>
             </Grid.ColumnDefinitions>
             <TextBox Grid.Column="0" Margin="5 3"/>
-            <ComboBox Grid.Column="1" Margin="5 3 5 3">
-                <ComboBoxItem>Livro</ComboBoxItem>
-                <ComboBoxItem>Jogo</ComboBoxItem>
+            <ComboBox ItemsSource="{Binding categories}" Grid.Column="1" Margin="5 3 5 3">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{Binding Id}" Width="70" />
+                            <TextBlock Text="{Binding Description}" Width="100" />
+                        </StackPanel>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
             </ComboBox>
             <Button Grid.Column="2" Margin="0 3 5 3" Content="Pesquisar"/>
         </Grid>
@@ -56,8 +59,89 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <views:StorageListView DataContext="{Binding Products}" Grid.Column="0" Margin="0 0 5 0"/>
-            <views:ItemDetailView Grid.Column="1" Margin="5 0 0 0"/>
+            <!--
+               <ListView Grid.Column="0" Margin="0 0 5 0">
+                <ListViewItem>O Hobbit</ListViewItem>
+                <ListViewItem>O Silmarillion</ListViewItem>
+            </ListView>
+            -->
+            <DataGrid x:Name="ProductDataGrid" 
+                      AutoGenerateColumns="False" 
+                      IsReadOnly="True"
+                      Grid.Column="0"
+                      ColumnWidth="*"
+                      Margin="0 0 5 0"
+                      IsSynchronizedWithCurrentItem="True"
+                      ItemsSource="{Binding products}">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Product Id" Binding="{Binding Id}"/>
+                    <DataGridTextColumn Header="Description" Binding="{Binding Description}"/>
+                    <DataGridTextColumn Header="Price" Binding="{Binding Price}"/>
+                    <DataGridTextColumn Header="Category" Binding="{Binding Category.Description}"/>
+                </DataGrid.Columns>
+                
+            </DataGrid>
+
+            <Grid Grid.Column="1" Margin="5 0 0 0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="4*"/>
+                    <RowDefinition Height="1*"/>
+                </Grid.RowDefinitions>
+
+                <Border BorderBrush="Gray" BorderThickness="2" Grid.Row="0">
+                    <Grid Margin="5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="3*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel Grid.Column="0">
+                            <Label Height="28" Name="Label1" Width="auto">Código</Label>
+                            <Label Height="28" Name="Lebe12" Width="auto">Nome</Label>
+                            <Label Height="28" Name="Label3" Width="auto">Descrição</Label>
+                        </StackPanel>
+                        <StackPanel Grid.Column="1">
+                            <TextBox 
+                                VerticalContentAlignment="Center" 
+                                Height="28" 
+                                Width="auto">
+                                Digite o codigo
+                            </TextBox>
+                            <TextBox 
+                                VerticalContentAlignment="Center" 
+                                Height="28" 
+                                Width="auto">
+                                Digite o nome
+                            </TextBox>
+                            <TextBox 
+                                VerticalContentAlignment="Center" 
+                                Height="28" 
+                                Width="auto">
+                                Digite a descição
+                            </TextBox>
+                        </StackPanel>
+                    </Grid>
+                </Border>
+                <Grid  Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Button
+                        IsEnabled="False"
+                        Grid.Column="1"
+                        Width="100"
+                        Content="Cancelar"
+                        Height="35"/>
+                    <Button
+                        IsEnabled="False"
+                        Grid.Column="2"
+                        Width="100"
+                        Content="Salvar"
+                        Height="35"/>
+                </Grid>
+            </Grid>
         </Grid>
     </Grid>
 </Window>

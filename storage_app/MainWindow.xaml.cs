@@ -18,6 +18,10 @@ using Newtonsoft.Json;
 using storage_app.Models;
 using storage_app.ViewModels;
 
+using storage_app.Models;
+using storage_app.Services;
+using storage_app.ViewModel;
+
 namespace storage_app
 {
     /// <summary>
@@ -25,11 +29,11 @@ namespace storage_app
     /// </summary>
     public partial class MainWindow : Window
     {
-        public MainWindowViewModel MainWindowViewModel;
+        //public MainWindowViewModel MainWindowViewModel;
 
         public MainWindow()
         {
-            MainWindowViewModel = new MainWindowViewModel();
+            //MainWindowViewModel = new MainWindowViewModel();
 
             InitializeComponent();
         }

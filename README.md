@@ -1,4 +1,11 @@
 # Storage API
+
+## Folders
+estoque-api - API
+estoque-api.Tests - Unittests
+storage_app - Desktop APP
+doc - Documentation
+
 ## To run:
 ```
 dotnet clean
@@ -38,3 +45,11 @@ Storage API returns the following status codes in its API:
 | 400 | `BAD REQUEST` |
 | 404 | `NOT FOUND` |
 | 500 | `INTERNAL SERVER ERROR` |
+
+## Infrastructure
+
+![Infra](doc/infrastructure.png)
+
+## Prototype
+
+![Infra](doc/prototype.png)
