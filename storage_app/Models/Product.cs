@@ -7,7 +7,7 @@ using System.ComponentModel;
 
 namespace storage_app.Models
 {
-    internal class Product: INotifyPropertyChanged
+    internal class Product
     {
         public int Id { get; set; }
         public string Description { get; set; } = string.Empty;
@@ -16,13 +16,5 @@ namespace storage_app.Models
         public Category Category { get; set; } = new();
         public DateTimeOffset Create_at { get; set; } = DateTimeOffset.Now;
 
-        public event PropertyChangedEventHandler? PropertyChanged;
-        private void OnPropertyChanged(string propertyName)
-        {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-            }
-        }
     }
 }

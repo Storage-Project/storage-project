@@ -7,17 +7,9 @@ using System.ComponentModel;
 
 namespace storage_app.Models
 {
-    internal class Category: INotifyPropertyChanged
+    internal class Category
     {
         public int Id { get; set; }
         public string Description { get; set; } = string.Empty;
-        public event PropertyChangedEventHandler? PropertyChanged;
-        private void OnPropertyChanged(string propertyName)
-        {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-            }
-        }
     }
 }
