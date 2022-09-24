@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 
 using storage_app.Models;
 using storage_app.Services;
+using storage_app.Utils.Objects;
 
 namespace storage_app.ViewModels
 {
@@ -29,13 +30,39 @@ namespace storage_app.ViewModels
             }
         }
 
+        private SearchActionViewModel _searchActionViewModel;
+        public SearchActionViewModel SearchActionViewModel
+        {
+            get { return _searchActionViewModel; }
+            set
+            {
+                _searchActionViewModel = value;
+                OnPropertyChanged(nameof(SearchActionViewModel));
+            }
+        }
+
         public MainViewModel(IProductService productService, ICategoryService categoryService)
         {
+
             _storageDataGridViewModel =
                 new StorageDataGridViewModel(productService);
 
+            _searchActionViewModel =
+                new SearchActionViewModel();
+            BuildSearchAction();
+
             _filterViewModel =
-                new FilterViewModel(categoryService);
+                new FilterViewModel(categoryService, SearchActionViewModel);
+        }
+
+        public void BuildSearchAction()
+        {
+            SearchActionViewModel.FilteredSerchCommand =
+                new Searcher(
+                    f => 
+                    { 
+                        StorageDataGridViewModel.GetProducts(f as Filter); 
+                    });
         }
 
 
