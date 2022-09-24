@@ -9,10 +9,5 @@ namespace storage_app.Services
     {
         public Task<List<Product>> GetProducts();
         public Task<Product?> GetProductById(int Id);
-        public Task<Product> GetProductByDescription(string Name);
-        public void InsertProduct(Product product);
-        public void UpdateProduct(Product product);
-        public void DeleteProduct(int Id);
-
     }
 }

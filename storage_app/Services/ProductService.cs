@@ -38,25 +38,5 @@ namespace storage_app.Services
         {
             return await PostAsync<Product>("/products", product);
         }
-
-        public Task<Product> GetProductByDescription(string Name)
-        {
-            throw new NotImplementedException();
-        }
-
-        void IProductService.InsertProduct(Product product)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void UpdateProduct(Product product)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void DeleteProduct(int Id)
-        {
-            throw new NotImplementedException();
-        }
     }
 }
