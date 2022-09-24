@@ -11,7 +11,7 @@ namespace storage_app.Services
 {
     internal class ProductService : IProductService
     {
-        private string _baseUrl = "https://estoque-api.azurewebsites.net";
+        private string _baseUrl = "https://localhost:7113";
 
         public async Task<List<Product>> GetProducts()
         {
@@ -72,6 +72,26 @@ namespace storage_app.Services
 
             }
             return false;
+        }
+
+        public Task<Product> GetProductByDescription(string Name)
+        {
+            throw new NotImplementedException();
+        }
+
+        void IProductService.InsertProduct(Product product)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void UpdateProduct(Product product)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void DeleteProduct(int Id)
+        {
+            throw new NotImplementedException();
         }
     }
 }
