@@ -20,18 +20,19 @@
         </Grid.ColumnDefinitions>
         
         <TextBox 
+            Text="{Binding FilterDescription}"
             Grid.Column="0" 
             Margin="5 3"/>
         
         <ComboBox 
-            ItemsSource="{Binding Categories}" 
+            ItemsSource="{Binding Categories}"
+            SelectedItem="{Binding SelectedCategory}"
             Grid.Column="1" 
             Margin="5 3 5 3">
             
             <ComboBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="{Binding Id}" Width="70" />
                         <TextBlock Text="{Binding Description}" Width="100" />
                     </StackPanel>
                 </DataTemplate>
@@ -41,7 +42,9 @@
         <Button 
             Grid.Column="2" 
             Margin="0 3 5 3" 
-            Content="Pesquisar"/>
+            Content="Search"
+            Command="{Binding SearchActionViewModel.FilteredSerchCommand}"
+            CommandParameter="{Binding Filter}"/>
         
     </Grid>
     
