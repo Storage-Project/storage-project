@@ -30,9 +30,22 @@ namespace storage_app.ViewModels
 
         public void GetProducts(Filter? filter = null)
         {
-            Trace.WriteLine(filter?.Description + filter?.Category.Description);
-            var task = Task.Run(async () => await productService.GetProducts());
-            _products = task.Result;
+            if (filter == null)
+            {
+                var task = Task.Run(async () => await productService.GetProducts());
+                Products = task.Result;
+            } else
+            {
+                var task = Task.Run(
+                    async () => 
+                    await productService
+                    .GetProductsFiltered(
+                        description: filter.Description,
+                        category: filter.Category.Description
+                        )
+                    );
+                Products = task.Result;
+            }
         }
     }
 }
