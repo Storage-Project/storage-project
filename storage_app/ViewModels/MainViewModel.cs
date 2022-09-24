@@ -1,28 +1,33 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 
 using storage_app.Models;
 using storage_app.Services;
 
-namespace storage_app.ViewModel
+namespace storage_app.ViewModels
 {
-    internal class MainViewModel
+    internal class MainViewModel : ViewModelBase
     {
-        private List<Product> _products;
+        private List<Product> _products = new();
         public List<Product> products
         {
             get { return _products; }
-            set { _products = value; }
+            set 
+            { 
+                _products = value;
+                OnPropertyChanged(nameof(products));
+            }
         }
 
-        private List<Category> _categories;
+        private List<Category> _categories = new();
         public List<Category> categories
         {
             get { return _categories; }
-            set { _categories = value; }
+            set 
+            { 
+                _categories = value; 
+                OnPropertyChanged(nameof(categories));
+            }
         }
 
         private readonly IProductService productService;
@@ -31,19 +36,19 @@ namespace storage_app.ViewModel
         {
             this.productService = productService;
             this.categoryService = categoryService;
-            this.GetProducts();
-            this.GetCategories();
+            GetProducts();
+            GetCategories();
         }
 
         public void GetProducts()
         {
             var task = Task.Run(async () => await productService.GetProducts());
-            this._products = task.Result;
+            _products = task.Result;
         }
         public void GetCategories()
         {
             var task = Task.Run(async () => await categoryService.GetCategories());
-            this._categories = task.Result;
+            _categories = task.Result;
         }
     }
 }
