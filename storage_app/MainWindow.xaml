@@ -19,12 +19,14 @@
         MinWidth="800">
     
     <Grid Margin="10 5 10 10">
+        
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
+        
         <Label 
             Grid.Row="0"
             VerticalContentAlignment="Center"
@@ -33,37 +35,27 @@
             FontWeight="SemiBold">
             Storage Control
         </Label>
+        
         <Grid Grid.Row="1">
+            
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="auto"/>
                 <ColumnDefinition Width="auto"/>
                 <ColumnDefinition Width="auto"/>
                 <ColumnDefinition Width="auto"/>
             </Grid.ColumnDefinitions>
+            
             <Button Margin="5 3" Content="Insert" Grid.Column="0"/>
             <Button Margin="5 3" Content="Delete" Grid.Column="1"/>
             <Button Margin="5 3" Content="Sell" Grid.Column="2"/>
             <Button Margin="5 3" Content="Generate Report" Grid.Column="3"/>
+        
         </Grid>
-        <Grid Grid.Row="2">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="5*"/>
-                <ColumnDefinition Width="3*"/>
-                <ColumnDefinition Width="1*"/>
-            </Grid.ColumnDefinitions>
-            <TextBox Grid.Column="0" Margin="5 3"/>
-            <ComboBox ItemsSource="{Binding Categories}" Grid.Column="1" Margin="5 3 5 3">
-                <ComboBox.ItemTemplate>
-                    <DataTemplate>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="{Binding Id}" Width="70" />
-                            <TextBlock Text="{Binding Description}" Width="100" />
-                        </StackPanel>
-                    </DataTemplate>
-                </ComboBox.ItemTemplate>
-            </ComboBox>
-            <Button Grid.Column="2" Margin="0 3 5 3" Content="Pesquisar"/>
-        </Grid>
+
+        <views:FilterView
+            Grid.Row="2"
+            DataContext="{Binding FilterViewModel}"/>
+        
         <Grid Grid.Row="3" Margin="5">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>

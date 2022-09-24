@@ -18,30 +18,26 @@ namespace storage_app.ViewModels
             }
         }
 
-        private List<Category> _categories = new();
-        public List<Category> Categories
+        private FilterViewModel _filterViewModel;
+        public FilterViewModel FilterViewModel
         {
-            get { return _categories; }
-            set 
-            { 
-                _categories = value; 
-                OnPropertyChanged(nameof(Categories));
+            get { return _filterViewModel; }
+            set
+            {
+                _filterViewModel = value;
+                OnPropertyChanged(nameof(FilterViewModel));
             }
         }
 
-        private readonly ICategoryService categoryService;
         public MainViewModel(IProductService productService, ICategoryService categoryService)
         {
-            _storageDataGridViewModel = new(productService);
+            _storageDataGridViewModel =
+                new StorageDataGridViewModel(productService);
 
-            this.categoryService = categoryService;
-            GetCategories();
+            _filterViewModel =
+                new FilterViewModel(categoryService);
         }
 
-        public void GetCategories()
-        {
-            var task = Task.Run(async () => await categoryService.GetCategories());
-            _categories = task.Result;
-        }
+
     }
 }
