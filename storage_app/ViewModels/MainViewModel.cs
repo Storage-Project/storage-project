@@ -8,43 +8,36 @@ namespace storage_app.ViewModels
 {
     internal class MainViewModel : ViewModelBase
     {
-        private List<Product> _products = new();
-        public List<Product> products
+        private StorageDataGridViewModel _storageDataGridViewModel;
+        public StorageDataGridViewModel StorageDataGridViewModel
         {
-            get { return _products; }
-            set 
-            { 
-                _products = value;
-                OnPropertyChanged(nameof(products));
+            get { return _storageDataGridViewModel; }
+            set { 
+                _storageDataGridViewModel = value;
+                OnPropertyChanged(nameof(StorageDataGridViewModel));
             }
         }
 
         private List<Category> _categories = new();
-        public List<Category> categories
+        public List<Category> Categories
         {
             get { return _categories; }
             set 
             { 
                 _categories = value; 
-                OnPropertyChanged(nameof(categories));
+                OnPropertyChanged(nameof(Categories));
             }
         }
 
-        private readonly IProductService productService;
         private readonly ICategoryService categoryService;
         public MainViewModel(IProductService productService, ICategoryService categoryService)
         {
-            this.productService = productService;
+            _storageDataGridViewModel = new(productService);
+
             this.categoryService = categoryService;
-            GetProducts();
             GetCategories();
         }
 
-        public void GetProducts()
-        {
-            var task = Task.Run(async () => await productService.GetProducts());
-            _products = task.Result;
-        }
         public void GetCategories()
         {
             var task = Task.Run(async () => await categoryService.GetCategories());
