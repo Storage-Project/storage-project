@@ -9,13 +9,13 @@ namespace storage_app.ViewModels
     internal class StorageDataGridViewModel : ViewModelBase
     {
         private List<Product> _products = new();
-        public List<Product> products
+        public List<Product> Products
         {
             get { return _products; }
             set 
             { 
                 _products = value;
-                OnPropertyChanged(nameof(products));
+                OnPropertyChanged(nameof(Products));
             }
         }
 

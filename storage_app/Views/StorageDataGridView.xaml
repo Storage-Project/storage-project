@@ -16,7 +16,7 @@
               IsReadOnly="True"
               ColumnWidth="*"
               IsSynchronizedWithCurrentItem="True"
-              ItemsSource="{Binding products}">
+              ItemsSource="{Binding Products}">
         
         <DataGrid.Columns>
             <DataGridTextColumn Header="Product Id" Binding="{Binding Id}"/>
