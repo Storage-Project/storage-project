@@ -1,0 +1,48 @@
+﻿<UserControl x:Class="storage_app.Views.FilterView"
+             
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             
+             xmlns:viewmodels="clr-namespace:storage_app.ViewModels" 
+             d:DataContext="{d:DesignInstance Type=viewmodels:FilterViewModel}"
+
+             mc:Ignorable="d" 
+             
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="5*"/>
+            <ColumnDefinition Width="3*"/>
+            <ColumnDefinition Width="1*"/>
+        </Grid.ColumnDefinitions>
+        
+        <TextBox 
+            Grid.Column="0" 
+            Margin="5 3"/>
+        
+        <ComboBox 
+            ItemsSource="{Binding Categories}" 
+            Grid.Column="1" 
+            Margin="5 3 5 3">
+            
+            <ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding Id}" Width="70" />
+                        <TextBlock Text="{Binding Description}" Width="100" />
+                    </StackPanel>
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
+        
+        <Button 
+            Grid.Column="2" 
+            Margin="0 3 5 3" 
+            Content="Pesquisar"/>
+        
+    </Grid>
+    
+</UserControl>
