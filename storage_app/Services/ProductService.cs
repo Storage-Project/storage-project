@@ -21,6 +21,26 @@ namespace storage_app.Services
             return products;
         }
 
+        public async Task<List<Product>> GetProductsFiltered(string? description = null, string? category = null, int? quantity = null)
+        {
+            List<Product> products = new();
+
+            Dictionary<string, string> query = new();
+            if (description != null) query["description"] = description;
+            if (category != null) query["category"] = category;
+            if (quantity != null)
+            {
+                query["quantity"] = quantity.ToString() ?? "";
+            }
+
+            var _products = await GetValueAsync<List<Product>>("v1/products/filters", query);
+
+            if (_products != null)
+                products = _products;
+
+            return products;
+        }
+
         public async Task<Product?> GetProductById(int Id)
         {
             Product? product = null;
