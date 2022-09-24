@@ -11,7 +11,7 @@ namespace storage_app
     /// </summary>
     public partial class App : Application
     {
-        private IServiceProvider serviceProvider;
+        private readonly IServiceProvider serviceProvider;
 
         public App()
         {
@@ -33,8 +33,10 @@ namespace storage_app
         {
             var _providerService = serviceProvider.GetService<IProductService>();
             var _categoryService = serviceProvider.GetService<ICategoryService>();
+
             if (_providerService == null) throw new Exception("Missing ProviderService");
             if (_categoryService == null) throw new Exception("Missing CategoryService");
+
             return new MainViewModel(_providerService, _categoryService);
         }
 
