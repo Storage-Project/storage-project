@@ -22,6 +22,7 @@ namespace estoque_api.tests
         {
             _productRepositoryMock = new Mock<IProductRepository>();
             _products = GetList();
+            _productRepositoryMock.Setup(r => r.GetProducts().Result).Returns(_products);
             _productRepositoryMock.Setup(r => r.GetProductByID(2).Result).Returns(_products.Where(i => i.Id == 2).FirstOrDefault());
         }
 
@@ -38,7 +39,7 @@ namespace estoque_api.tests
 
         }
         [Fact]
-        public async void List_GetProducts_AllProducts()
+        public void List_GetProducts_AllProducts()
         {   
             var controller = new ProductController(_productRepositoryMock.Object);
 
@@ -47,6 +48,17 @@ namespace estoque_api.tests
             var actualResult = okResult.Value as List<Product>;
 
             Assert.Equal(_products, actualResult);
+        }
+        [Fact]
+        public void List_GetProducts_ProductWithId()
+        {
+            var controller = new ProductController(_productRepositoryMock.Object);
+
+            var result = controller.GetAsync(2).Result;
+            var okResult = result as OkObjectResult;
+            var actualResult = okResult.Value as Product;
+
+            Assert.Equal(2, actualResult.Id);
         }
 
 
