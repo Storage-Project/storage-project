@@ -1,9 +1,11 @@
 ﻿using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace storage_app.Services
 {
@@ -11,11 +13,11 @@ namespace storage_app.Services
     {
         private readonly string _baseUrl = "https://estoque-api.azurewebsites.net";
 
-        protected async Task<T?> GetValueAsync<T>(string Path)
+        protected async Task<T?> GetValueAsync<T>(string Path, Dictionary<string,string>? query = null)
         {
             using var client = new HttpClient();
 
-            client.BaseAddress = new Uri(_baseUrl);
+            string filledPath = BuilPathWithQuery(Path, query);
 
             client
                 .DefaultRequestHeaders
@@ -26,7 +28,7 @@ namespace storage_app.Services
                 .Accept
                 .Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
-            HttpResponseMessage Res = await client.GetAsync(Path);
+            HttpResponseMessage Res = await client.GetAsync(filledPath);
 
             if (Res.IsSuccessStatusCode)
             {
@@ -57,6 +59,24 @@ namespace storage_app.Services
             }
 
             return false;
+        }
+
+        private string BuilPathWithQuery(string path, Dictionary<string, string>? query)
+        {
+            var builder = new UriBuilder(_baseUrl)
+            {
+                Path = path
+            };
+
+            if (query == null) return builder.ToString();
+
+            var queryCollection = HttpUtility.ParseQueryString(string.Empty);
+            foreach (var keyValuePair in query)
+            {
+                queryCollection.Add(keyValuePair.Key, keyValuePair.Value);
+            }
+            builder.Query = queryCollection.ToString();
+            return builder.ToString();
         }
     }
 }

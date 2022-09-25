@@ -21,6 +21,26 @@ namespace storage_app.Services
             return products;
         }
 
+        public async Task<List<Product>> GetProductsFiltered(string? description = null, string? category = null, int? quantity = null)
+        {
+            List<Product> products = new();
+
+            Dictionary<string, string> query = new();
+            if (description != null) query["description"] = description;
+            if (category != null) query["category"] = category;
+            if (quantity != null)
+            {
+                query["quantity"] = quantity.ToString() ?? "";
+            }
+
+            var _products = await GetValueAsync<List<Product>>("v1/products/filters", query);
+
+            if (_products != null)
+                products = _products;
+
+            return products;
+        }
+
         public async Task<Product?> GetProductById(int Id)
         {
             Product? product = null;
@@ -37,26 +57,6 @@ namespace storage_app.Services
         public async Task<bool> InsertProduct(Product product)
         {
             return await PostAsync<Product>("/products", product);
-        }
-
-        public Task<Product> GetProductByDescription(string Name)
-        {
-            throw new NotImplementedException();
-        }
-
-        void IProductService.InsertProduct(Product product)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void UpdateProduct(Product product)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void DeleteProduct(int Id)
-        {
-            throw new NotImplementedException();
         }
     }
 }

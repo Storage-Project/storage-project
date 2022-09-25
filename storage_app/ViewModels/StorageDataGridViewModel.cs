@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.Threading.Tasks;
-
 using storage_app.Models;
 using storage_app.Services;
+using storage_app.Utils.Objects;
 
 namespace storage_app.ViewModels
 {
@@ -26,10 +28,24 @@ namespace storage_app.ViewModels
             GetProducts();
         }
 
-        public void GetProducts()
+        public void GetProducts(Filter? filter = null)
         {
-            var task = Task.Run(async () => await productService.GetProducts());
-            _products = task.Result;
+            if (filter == null)
+            {
+                var task = Task.Run(async () => await productService.GetProducts());
+                Products = task.Result;
+            } else
+            {
+                var task = Task.Run(
+                    async () => 
+                    await productService
+                    .GetProductsFiltered(
+                        description: filter.Description,
+                        category: filter.Category.Description
+                        )
+                    );
+                Products = task.Result;
+            }
         }
     }
 }
