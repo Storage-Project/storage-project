@@ -9,7 +9,7 @@ namespace storage_app.ViewModels
 {
     internal class FilterViewModel : ViewModelBase
     {
-        private SearchActionViewModel _searchActionViewModel = new();
+        private SearchActionViewModel _searchActionViewModel;
         public SearchActionViewModel SearchActionViewModel
         {
             get { return _searchActionViewModel; }
@@ -69,9 +69,11 @@ namespace storage_app.ViewModels
 
         private readonly ICategoryService categoryService;
 
-        public FilterViewModel(ICategoryService categoryService, SearchActionViewModel searchActionViewModel)
+        public FilterViewModel(
+            ICategoryService categoryService,
+            SearchActionViewModel searchActionViewModel)
         {
-            SearchActionViewModel = searchActionViewModel;
+            _searchActionViewModel = searchActionViewModel;
             this.categoryService = categoryService;
             GetCategories();
         }
