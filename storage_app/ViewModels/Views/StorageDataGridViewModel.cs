@@ -5,11 +5,23 @@ using System.Threading.Tasks;
 using storage_app.Models;
 using storage_app.Services;
 using storage_app.Utils.Objects;
+using storage_app.ViewModels.Actions;
 
 namespace storage_app.ViewModels
 {
     internal class StorageDataGridViewModel : ViewModelBase
     {
+        private SelectedProductActionViewModel _selectedProductActionViewModel;
+        public SelectedProductActionViewModel SelectedProductActionViewModel
+        {
+            get { return _selectedProductActionViewModel; }
+            set
+            {
+                _selectedProductActionViewModel = value;
+                OnPropertyChanged(nameof(SelectedProductActionViewModel));
+            }
+        }
+
         private List<Product> _products = new();
         public List<Product> Products
         {
@@ -21,9 +33,23 @@ namespace storage_app.ViewModels
             }
         }
 
-        private readonly IProductService productService;
-        public StorageDataGridViewModel(IProductService productService)
+        private Product _selectedProduct = new();
+        public Product SelectedProduct
         {
+            get { return _selectedProduct; }
+            set
+            {
+                _selectedProduct = value;
+                OnPropertyChanged(nameof(SelectedProduct));
+            }
+        }
+
+        private readonly IProductService productService;
+        public StorageDataGridViewModel(
+            IProductService productService,
+            SelectedProductActionViewModel selectedProductActionViewModel)
+        {
+            _selectedProductActionViewModel = selectedProductActionViewModel;
             this.productService = productService;
             GetProducts();
         }
