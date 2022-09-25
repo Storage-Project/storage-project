@@ -14,8 +14,8 @@ namespace storage_app.ViewModels
         public List<Product> Products
         {
             get { return _products; }
-            set 
-            { 
+            set
+            {
                 _products = value;
                 OnPropertyChanged(nameof(Products));
             }
@@ -34,10 +34,11 @@ namespace storage_app.ViewModels
             {
                 var task = Task.Run(async () => await productService.GetProducts());
                 Products = task.Result;
-            } else
+            }
+            else
             {
                 var task = Task.Run(
-                    async () => 
+                    async () =>
                     await productService
                     .GetProductsFiltered(
                         description: filter.Description,

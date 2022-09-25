@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace storage_app.ViewModels
+namespace storage_app.ViewModels.Actions
 {
     internal class SearchActionViewModel : ViewModelBase
     {
@@ -15,7 +15,7 @@ namespace storage_app.ViewModels
             get
             {
                 if (_filteredSerchCommand == null)
-                    _filteredSerchCommand = new Searcher(_ => {  });
+                    _filteredSerchCommand = new Searcher(_ => { });
                 return _filteredSerchCommand;
             }
             set

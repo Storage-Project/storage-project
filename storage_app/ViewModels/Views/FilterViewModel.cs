@@ -1,6 +1,7 @@
 ﻿using storage_app.Models;
 using storage_app.Services;
 using storage_app.Utils.Objects;
+using storage_app.ViewModels.Actions;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -49,7 +50,7 @@ namespace storage_app.ViewModels
             set
             {
                 _filterDescription = value;
-                _filter.Description = _filterDescription; 
+                _filter.Description = _filterDescription;
                 OnPropertyChanged(nameof(FilterDescription));
                 OnPropertyChanged(nameof(Filter));
             }
@@ -80,6 +81,7 @@ namespace storage_app.ViewModels
             var task = Task.Run(async () => await categoryService.GetCategories());
             _categories = task.Result;
             _categories.Insert(0, new Category());
+            Categories = _categories;
         }
     }
 }
