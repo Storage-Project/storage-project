@@ -1,14 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows;
 using Microsoft.Extensions.DependencyInjection;
 using storage_app.Services;
-using storage_app.ViewModel;
-using storage_app;
+using storage_app.ViewModels;
 
 namespace storage_app
 {
@@ -17,7 +11,7 @@ namespace storage_app
     /// </summary>
     public partial class App : Application
     {
-        private IServiceProvider serviceProvider;
+        private readonly IServiceProvider serviceProvider;
 
         public App()
         {
@@ -31,14 +25,28 @@ namespace storage_app
 
         void OnStartup(object s, StartupEventArgs e)
         {
-            var mainWindow = serviceProvider.GetService<MainWindow>();
-            MainViewModel VM = new MainViewModel(serviceProvider.GetService<IProductService>(), serviceProvider.GetService<ICategoryService>());
-            mainWindow.DataContext = VM;
-            mainWindow.Show();
-
+            MainViewModel mainViewModel = BuildMainViewModel();
+            WindowStartup(mainViewModel);
         }
 
+        private MainViewModel BuildMainViewModel()
+        {
+            var _providerService = serviceProvider.GetService<IProductService>();
+            var _categoryService = serviceProvider.GetService<ICategoryService>();
 
+            if (_providerService == null) throw new Exception("Missing ProviderService");
+            if (_categoryService == null) throw new Exception("Missing CategoryService");
+
+            return new MainViewModel(_providerService, _categoryService);
+        }
+
+        private void WindowStartup(MainViewModel mainViewModel)
+        {
+            var mainWindow = serviceProvider.GetService<MainWindow>();
+            if (mainWindow == null) throw new Exception("Missing MainWindow");
+            mainWindow.DataContext = mainViewModel;
+            mainWindow.Show();
+        }
 
     }
 }

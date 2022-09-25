@@ -1,36 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Net.Http;
-using System.Net.Http.Headers;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
 
 using storage_app.Models;
 
 namespace storage_app.Services
 {
-    internal class CategoryService : ICategoryService
+    internal class CategoryService : ServiceBase, ICategoryService
     {
-        private string _baseUrl = "https://localhost:7113";
         public async Task<List<Category>> GetCategories()
         {
-            List<Category> categories = new List<Category>();
-            using (var client = new HttpClient())
-            {
-                client.BaseAddress = new Uri(_baseUrl);
-                client.DefaultRequestHeaders.Clear();
-                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                HttpResponseMessage Res = await client.GetAsync("v1/categories");
-                if (Res.IsSuccessStatusCode)
-                {
-                    var EmpResponse = Res.Content.ReadAsStringAsync().Result;
-                    categories = JsonConvert.DeserializeObject<List<Category>>(EmpResponse);
+            List<Category> categories = new();
 
-                    return categories;
-                }
+            var _categories = await GetValueAsync<List<Category>>("v1/categories");
 
-            }
-            return null;
+            if (_categories != null)
+                categories = _categories;
+
+            return categories;
         }
     }
 }
