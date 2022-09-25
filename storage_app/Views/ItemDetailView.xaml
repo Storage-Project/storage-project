@@ -27,6 +27,7 @@
                     <Label Height="28" Width="auto">Código</Label>
                     <Label Height="28" Width="auto">Descrição</Label>
                     <Label Height="28" Width="auto">Preço</Label>
+                    <Label Height="28" Width="auto">Quantity</Label>
                     <Label Height="28" Width="auto">Categoria</Label>
                 </StackPanel>
                 <StackPanel Grid.Column="1">
@@ -50,13 +51,22 @@
                         Width="auto"
                         Text="{Binding Product.Price}"
                         IsEnabled="False"/>
-                    
+
+                    <TextBox 
+                        VerticalContentAlignment="Center" 
+                        Height="28" 
+                        Width="auto"
+                        Text="{Binding Product.Quantity}"
+                        IsEnabled="False"/>
+
                     <ComboBox 
                         IsEditable="True"
                         IsReadOnly="True"
+                        IsEnabled="False"
                         Text="{Binding Product.Category.Description}"
                         ItemsSource="{Binding Categories}"
-                        SelectedItem="{Binding SelectedCategory}">
+                        SelectedItem="{Binding SelectedCategory}"
+                        Height="28">
                         <ComboBox.ItemTemplate>
                             <DataTemplate>
                                 <StackPanel
