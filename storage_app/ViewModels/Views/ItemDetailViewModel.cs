@@ -55,5 +55,10 @@ namespace storage_app.ViewModels
             var task = Task.Run(async () => await categoryService.GetCategories());
             Categories = task.Result;
         }
+
+        public void UpdateSelectedProduct(Product? product)
+        {
+            if (product != null) Product = product;
+        }
     }
 }
