@@ -31,6 +31,17 @@ namespace storage_app.ViewModels
             }
         }
 
+        private ItemDetailViewModel _itemDetailViewModel;
+        public ItemDetailViewModel ItemDetailViewModel
+        {
+            get { return _itemDetailViewModel; }
+            set
+            {
+                _itemDetailViewModel = value;
+                OnPropertyChanged(nameof(ItemDetailViewModel));
+            }
+        }
+
         private SearchActionViewModel _searchActionViewModel;
         public SearchActionViewModel SearchActionViewModel
         {
@@ -54,6 +65,9 @@ namespace storage_app.ViewModels
 
             _filterViewModel =
                 new FilterViewModel(categoryService, SearchActionViewModel);
+
+            _itemDetailViewModel =
+                new ItemDetailViewModel(categoryService);
         }
 
         public void BuildSearchAction()
