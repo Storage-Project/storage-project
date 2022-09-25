@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-
-using storage_app.Models;
+﻿using storage_app.Models;
 using storage_app.Services;
 using storage_app.Utils.Objects;
 using storage_app.ViewModels.Actions;
@@ -53,11 +50,25 @@ namespace storage_app.ViewModels
             }
         }
 
+        private SelectedProductActionViewModel _selectedProductActionViewModel;
+        public SelectedProductActionViewModel SelectedProductActionViewModel
+        {
+            get { return _selectedProductActionViewModel; }
+            set
+            {
+                _selectedProductActionViewModel = value;
+                OnPropertyChanged(nameof(SelectedProductActionViewModel));
+            }
+        }
+
         public MainViewModel(IProductService productService, ICategoryService categoryService)
         {
-
+            _selectedProductActionViewModel =
+                new SelectedProductActionViewModel();
+            BuildSelectedProductAction();
+            
             _storageDataGridViewModel =
-                new StorageDataGridViewModel(productService);
+                new StorageDataGridViewModel(productService, SelectedProductActionViewModel);
 
             _searchActionViewModel =
                 new SearchActionViewModel();
@@ -80,6 +91,14 @@ namespace storage_app.ViewModels
                     });
         }
 
-
+        public void BuildSelectedProductAction()
+        {
+            SelectedProductActionViewModel.SelectedProductCommand =
+                new SelectedProduct(
+                    p =>
+                    {
+                        ItemDetailViewModel.UpdateSelectedProduct(p as Product);
+                    });
+        }
     }
 }
