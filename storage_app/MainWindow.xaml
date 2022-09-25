@@ -45,10 +45,10 @@
                 <ColumnDefinition Width="auto"/>
             </Grid.ColumnDefinitions>
             
-            <Button Margin="5 3" Content="Insert" Grid.Column="0"/>
-            <Button Margin="5 3" Content="Delete" Grid.Column="1"/>
-            <Button Margin="5 3" Content="Sell" Grid.Column="2"/>
-            <Button Margin="5 3" Content="Generate Report" Grid.Column="3"/>
+            <Button Margin="5 3" Padding="5 0" Content="Insert" Grid.Column="0"/>
+            <Button Margin="5 3" Padding="5 0" Content="Delete" Grid.Column="1"/>
+            <Button Margin="5 3" Padding="5 0" Content="Sell" Grid.Column="2"/>
+            <Button Margin="5 3" Padding="5 0" Content="Generate Report" Grid.Column="3"/>
         
         </Grid>
 
@@ -81,9 +81,10 @@
                         </Grid.ColumnDefinitions>
 
                         <StackPanel Grid.Column="0">
-                            <Label Height="28" Name="Label1" Width="auto">Código</Label>
-                            <Label Height="28" Name="Lebe12" Width="auto">Nome</Label>
-                            <Label Height="28" Name="Label3" Width="auto">Descrição</Label>
+                            <Label Height="28" Width="auto">Código</Label>
+                            <Label Height="28" Width="auto">Descrição</Label>
+                            <Label Height="28" Width="auto">Preço</Label>
+                            <Label Height="28" Width="auto">Categoria</Label>
                         </StackPanel>
                         <StackPanel Grid.Column="1">
                             <TextBox 
@@ -96,14 +97,28 @@
                                 VerticalContentAlignment="Center" 
                                 Height="28" 
                                 Width="auto">
-                                Digite o nome
+                                Digite a descição
                             </TextBox>
                             <TextBox 
                                 VerticalContentAlignment="Center" 
                                 Height="28" 
                                 Width="auto">
-                                Digite a descição
+                                Digite o preço
                             </TextBox>
+                            <ComboBox 
+                                IsEditable="True"
+                                IsReadOnly="True"
+                                Text="SDVSC"
+                                ItemsSource="{Binding Categories}"
+                                SelectedItem="{Binding SelectedCategory}">
+                                <ComboBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="{Binding Description}" Width="100" />
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ComboBox.ItemTemplate>
+                            </ComboBox>
                         </StackPanel>
                     </Grid>
                 </Border>
@@ -115,15 +130,24 @@
                     </Grid.ColumnDefinitions>
                     <Button
                         IsEnabled="False"
+                        Grid.Column="0"
+                        Width="100"
+                        Content="Add"
+                        Background="LightBlue"
+                        Height="35"/>
+                    <Button
+                        IsEnabled="False"
                         Grid.Column="1"
                         Width="100"
-                        Content="Cancelar"
+                        Content="Save"
+                        Background="LightBlue"
                         Height="35"/>
                     <Button
                         IsEnabled="False"
                         Grid.Column="2"
                         Width="100"
-                        Content="Salvar"
+                        Content="Cancel"
+                        Background="IndianRed"
                         Height="35"/>
                 </Grid>
             </Grid>
