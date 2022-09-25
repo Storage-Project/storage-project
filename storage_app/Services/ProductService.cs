@@ -1,37 +1,62 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
 
 using storage_app.Models;
 
 namespace storage_app.Services
 {
-    internal class ProductService
+    internal class ProductService : ServiceBase, IProductService
     {
-        private string _baseUrl = "https://estoque-api.azurewebsites.net";
 
         public async Task<List<Product>> GetProducts()
         {
-            List<Product> products = new List<Product>();
-            using (var client = new HttpClient())
-            {
-                client.BaseAddress = new Uri(_baseUrl);
-                client.DefaultRequestHeaders.Clear();
-                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                HttpResponseMessage Res = await client.GetAsync("v1/products");
-                if (Res.IsSuccessStatusCode)
-                {
-                    var EmpResponse = Res.Content.ReadAsStringAsync().Result;
-                    products = JsonConvert.DeserializeObject<List<Product>>(EmpResponse);
+            List<Product> products = new();
 
-                    return products;
-                }
+            var _products = await GetValueAsync<List<Product>>("v1/products");
 
-            }
-            return null;
+            if (_products != null) 
+                products = _products;
+
+            return products;
+        }
+
+        public async Task<Product?> GetProductById(int Id)
+        {
+            Product? product = null;
+            string Path = String.Concat("v1/products/", Id);
+
+            var _product = await GetValueAsync<Product>(Path);
+
+            if (_product != null)
+                product = _product;
+
+            return product;
+        }
+
+        public async Task<bool> InsertProduct(Product product)
+        {
+            return await PostAsync<Product>("/products", product);
+        }
+
+        public Task<Product> GetProductByDescription(string Name)
+        {
+            throw new NotImplementedException();
+        }
+
+        void IProductService.InsertProduct(Product product)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void UpdateProduct(Product product)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void DeleteProduct(int Id)
+        {
+            throw new NotImplementedException();
         }
     }
 }

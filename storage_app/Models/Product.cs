@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace storage_app.Models
 {
@@ -14,5 +10,6 @@ namespace storage_app.Models
         public int Quantity { get; set; }
         public Category Category { get; set; } = new();
         public DateTimeOffset Create_at { get; set; } = DateTimeOffset.Now;
+
     }
 }
