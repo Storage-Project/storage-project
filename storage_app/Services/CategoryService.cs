@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
+
 
 using storage_app.Models;
 
@@ -17,6 +19,19 @@ namespace storage_app.Services
                 categories = _categories;
 
             return categories;
+        }
+
+        public async Task<Category?> GetCategoryById(int Id)
+        {
+            Category? category = null;
+            string Path = String.Concat("v1/categories/", Id);
+
+            var _category = await GetValueAsync<Category>(Path);
+
+            if (_category != null)
+                category = _category;
+
+            return category;
         }
     }
 }
