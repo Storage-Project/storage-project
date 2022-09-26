@@ -61,7 +61,7 @@ namespace storage_app.Services
             return false;
         }
 
-        protected async Task<bool> PutAsync<T>(string Path, string Route, T Body)
+        protected async Task<T> PutAsync<T>(string Path, string Route, T Body)
         {
             using var client = new HttpClient();
 
@@ -76,10 +76,13 @@ namespace storage_app.Services
 
             if (Res.IsSuccessStatusCode)
             {
-                return true;
+                var EmpResponse = Res.Content.ReadAsStringAsync().Result;
+                T result = JsonConvert.DeserializeObject<T>(EmpResponse);
+
+                return result;
             }
 
-            return false;
+            return default;
         }
 
         protected async Task<bool> DeleteAsync<T>(string Path, string Route)

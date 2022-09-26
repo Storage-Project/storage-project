@@ -64,6 +64,9 @@ namespace storage_app.Services
             return await DeleteAsync<Product>("/products", Convert.ToString(Id));
         }
 
-
+        public async Task<Product> UpdateProduct(int Id, Product product)
+        {
+            return await PutAsync<Product>("/products", Convert.ToString(Id), product);
+        }
     }
 }

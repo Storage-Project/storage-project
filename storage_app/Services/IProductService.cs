@@ -12,5 +12,7 @@ namespace storage_app.Services
         public Task<Product?> GetProductById(int Id);
         public Task<bool> InsertProduct(Product product);
         public Task<bool> DeleteProduct(int Id);
+        public Task<Product> UpdateProduct(int Id, Product product);
+
     }
 }
