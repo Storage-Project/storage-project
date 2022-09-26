@@ -16,14 +16,15 @@
               IsReadOnly="True"
               ColumnWidth="*"
               IsSynchronizedWithCurrentItem="True"
-              ItemsSource="{Binding Products}">
+              ItemsSource="{Binding Products}"
+              SelectedItem="{Binding SelectedProduct}"
+              SelectionChanged="DataGrid_SelectionChanged">
         
         <DataGrid.Columns>
             <DataGridTextColumn Header="Product Id" Binding="{Binding Id}"/>
             <DataGridTextColumn Header="Description" Binding="{Binding Description}"/>
-            <DataGridTextColumn Header="Price" Binding="{Binding Price}"/>
             <DataGridTextColumn Header="Category" Binding="{Binding Category.Description}"/>
         </DataGrid.Columns>
-        
+
     </DataGrid>
 </UserControl>

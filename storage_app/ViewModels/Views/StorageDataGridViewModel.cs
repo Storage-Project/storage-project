@@ -5,25 +5,51 @@ using System.Threading.Tasks;
 using storage_app.Models;
 using storage_app.Services;
 using storage_app.Utils.Objects;
+using storage_app.ViewModels.Actions;
 
 namespace storage_app.ViewModels
 {
     internal class StorageDataGridViewModel : ViewModelBase
     {
+        private SelectedProductActionViewModel _selectedProductActionViewModel;
+        public SelectedProductActionViewModel SelectedProductActionViewModel
+        {
+            get { return _selectedProductActionViewModel; }
+            set
+            {
+                _selectedProductActionViewModel = value;
+                OnPropertyChanged(nameof(SelectedProductActionViewModel));
+            }
+        }
+
         private List<Product> _products = new();
         public List<Product> Products
         {
             get { return _products; }
-            set 
-            { 
+            set
+            {
                 _products = value;
                 OnPropertyChanged(nameof(Products));
             }
         }
 
-        private readonly IProductService productService;
-        public StorageDataGridViewModel(IProductService productService)
+        private Product _selectedProduct = new();
+        public Product SelectedProduct
         {
+            get { return _selectedProduct; }
+            set
+            {
+                _selectedProduct = value;
+                OnPropertyChanged(nameof(SelectedProduct));
+            }
+        }
+
+        private readonly IProductService productService;
+        public StorageDataGridViewModel(
+            IProductService productService,
+            SelectedProductActionViewModel selectedProductActionViewModel)
+        {
+            _selectedProductActionViewModel = selectedProductActionViewModel;
             this.productService = productService;
             GetProducts();
         }
@@ -34,10 +60,11 @@ namespace storage_app.ViewModels
             {
                 var task = Task.Run(async () => await productService.GetProducts());
                 Products = task.Result;
-            } else
+            }
+            else
             {
                 var task = Task.Run(
-                    async () => 
+                    async () =>
                     await productService
                     .GetProductsFiltered(
                         description: filter.Description,

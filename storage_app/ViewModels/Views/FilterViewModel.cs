@@ -1,6 +1,7 @@
 ﻿using storage_app.Models;
 using storage_app.Services;
 using storage_app.Utils.Objects;
+using storage_app.ViewModels.Actions;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -8,7 +9,7 @@ namespace storage_app.ViewModels
 {
     internal class FilterViewModel : ViewModelBase
     {
-        private SearchActionViewModel _searchActionViewModel = new();
+        private SearchActionViewModel _searchActionViewModel;
         public SearchActionViewModel SearchActionViewModel
         {
             get { return _searchActionViewModel; }
@@ -49,7 +50,7 @@ namespace storage_app.ViewModels
             set
             {
                 _filterDescription = value;
-                _filter.Description = _filterDescription; 
+                _filter.Description = _filterDescription;
                 OnPropertyChanged(nameof(FilterDescription));
                 OnPropertyChanged(nameof(Filter));
             }
@@ -68,9 +69,11 @@ namespace storage_app.ViewModels
 
         private readonly ICategoryService categoryService;
 
-        public FilterViewModel(ICategoryService categoryService, SearchActionViewModel searchActionViewModel)
+        public FilterViewModel(
+            ICategoryService categoryService,
+            SearchActionViewModel searchActionViewModel)
         {
-            SearchActionViewModel = searchActionViewModel;
+            _searchActionViewModel = searchActionViewModel;
             this.categoryService = categoryService;
             GetCategories();
         }
@@ -80,6 +83,7 @@ namespace storage_app.ViewModels
             var task = Task.Run(async () => await categoryService.GetCategories());
             _categories = task.Result;
             _categories.Insert(0, new Category());
+            Categories = _categories;
         }
     }
 }
