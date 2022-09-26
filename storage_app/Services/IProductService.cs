@@ -11,5 +11,6 @@ namespace storage_app.Services
         public Task<List<Product>> GetProductsFiltered(string? description = null, string? category = null, int? quantity = null);
         public Task<Product?> GetProductById(int Id);
         public Task<bool> InsertProduct(Product product);
+        public Task<bool> DeleteProduct(int Id);
     }
 }

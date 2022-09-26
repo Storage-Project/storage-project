@@ -58,5 +58,10 @@ namespace storage_app.Services
         {
             return await PostAsync<Product>("/products", product);
         }
+
+        public Task<bool> DeleteProduct(int Id)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

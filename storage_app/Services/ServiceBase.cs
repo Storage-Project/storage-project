@@ -61,6 +61,44 @@ namespace storage_app.Services
             return false;
         }
 
+        protected async Task<bool> PutAsync<T>(string Path, string Route, T Body)
+        {
+            using var client = new HttpClient();
+
+            var baseUri = new Uri(_baseUrl);
+            client.BaseAddress = new Uri(baseUri, Route);
+
+            var content = JsonConvert.SerializeObject(Body);
+            var buffer = Encoding.UTF8.GetBytes(content);
+            var ByteContent = new ByteArrayContent(buffer);
+
+            HttpResponseMessage Res = await client.PutAsync(Path, ByteContent);
+
+            if (Res.IsSuccessStatusCode)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        protected async Task<bool> DeleteAsync<T>(string Path, string Route)
+        {
+            using var client = new HttpClient();
+
+            var baseUri = new Uri(_baseUrl);
+            client.BaseAddress = new Uri(baseUri, Route);
+
+            HttpResponseMessage Res = await client.DeleteAsync(Path);
+
+            if (Res.IsSuccessStatusCode)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
         private string BuilPathWithQuery(string path, Dictionary<string, string>? query)
         {
             var builder = new UriBuilder(_baseUrl)
