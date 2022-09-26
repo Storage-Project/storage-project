@@ -13,6 +13,7 @@ namespace storage_app.Services
         public Task<bool> InsertProduct(Product product);
         public Task<bool> DeleteProduct(int Id);
         public Task<Product> UpdateProduct(int Id, Product product);
+        public Task<Product> SellProduct(int Id, int quantity, Product product);
 
     }
 }
