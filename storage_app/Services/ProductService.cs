@@ -69,9 +69,10 @@ namespace storage_app.Services
             return await PutAsync<Product>("/products", Convert.ToString(Id), product);
         }
 
-        public Task<Product> SellProduct(int Id, int quantity, Product product)
+        public async Task<Product> SellProduct(int Id, int quantity, Product product)
         {
-            throw new NotImplementedException();
+            var route = String.Concat(Convert.ToString(Id), Convert.ToString(quantity));
+            return await PutAsync<Product>("/products", route, product);
         }
     }
 }
