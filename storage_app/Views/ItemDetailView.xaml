@@ -30,51 +30,51 @@
                     <Label Height="28" Width="auto">Quantity</Label>
                     <Label Height="28" Width="auto">Categoria</Label>
                 </StackPanel>
-                <StackPanel Grid.Column="1">
+                <StackPanel
+                    Grid.Column="1"
+                    PreviewMouseDown="StackPanel_PreviewMouseDown">
                     <TextBox 
                         VerticalContentAlignment="Center" 
                         Height="28" 
                         Width="auto"
-                        Text="{Binding Product.Id}"
+                        Text="{Binding Product.Id, Mode=OneWay}"
                         IsEnabled="False"/>
 
                     <TextBox 
                         VerticalContentAlignment="Center" 
                         Height="28" 
                         Width="auto"
-                        Text="{Binding Product.Description}"
-                        IsEnabled="False"/>
+                        Text="{Binding Product.Description, Mode=OneWay}"
+                        IsEnabled="{Binding Editing.IsEditing}"/>
                     
                     <TextBox 
                         VerticalContentAlignment="Center" 
                         Height="28" 
                         Width="auto"
-                        Text="{Binding Product.Price}"
-                        IsEnabled="False"/>
+                        Text="{Binding Product.Price, Mode=OneWay}"
+                        IsEnabled="{Binding Editing.IsEditing}"/>
 
                     <TextBox 
                         VerticalContentAlignment="Center" 
                         Height="28" 
                         Width="auto"
-                        Text="{Binding Product.Quantity}"
-                        IsEnabled="False"/>
+                        Text="{Binding Product.Quantity, Mode=OneWay}"
+                        IsEnabled="{Binding Editing.IsEditing}"/>
 
                     <ComboBox 
-                        IsEditable="True"
+                        IsEditable="{Binding Editing.IsNotEditing}"
                         IsReadOnly="True"
-                        IsEnabled="False"
+                        IsEnabled="{Binding Editing.IsEditing}"
                         Text="{Binding Product.Category.Description}"
                         ItemsSource="{Binding Categories}"
-                        SelectedItem="{Binding SelectedCategory}"
+                        SelectedItem="{Binding Product.Category.Description, Mode=OneWay}"
+                        SelectionChanged="ComboBox_SelectionChanged"
                         Height="28">
                         <ComboBox.ItemTemplate>
                             <DataTemplate>
-                                <StackPanel
-                                    Orientation="Horizontal">
-                                    <TextBlock
-                                        Text="{Binding Description}"
-                                        Width="auto" />
-                                </StackPanel>
+                                <TextBlock
+                                    Text="{Binding Description}"
+                                    Width="auto" />
                             </DataTemplate>
                         </ComboBox.ItemTemplate>
                     </ComboBox>
@@ -88,26 +88,29 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <Button
-                IsEnabled="False"
+                IsEnabled="{Binding Editing.IsAddable}"
                 Grid.Column="0"
                 Width="100"
                 Content="Add"
-                Background="LightBlue"
-                Height="35"/>
+                Background="LightSeaGreen"
+                Height="35"
+                Command="{Binding AddCommand}"/>
             <Button
-                IsEnabled="False"
+                IsEnabled="{Binding Editing.IsSavable}"
                 Grid.Column="1"
                 Width="100"
                 Content="Save"
                 Background="LightBlue"
-                Height="35"/>
+                Height="35"
+                Command="{Binding SaveCommand}"/>
             <Button
-                IsEnabled="False"
+                IsEnabled="{Binding Editing.IsCancelable}"
                 Grid.Column="2"
                 Width="100"
                 Content="Cancel"
                 Background="IndianRed"
-                Height="35"/>
+                Height="35"
+                Command="{Binding CancelCommand}"/>
         </Grid>
     </Grid>
 </UserControl>
