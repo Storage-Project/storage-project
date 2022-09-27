@@ -1,17 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using storage_app.Models;
+using storage_app.ViewModels;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace storage_app.Views
 {
@@ -23,6 +13,24 @@ namespace storage_app.Views
         public ItemDetailView()
         {
             InitializeComponent();
+        }
+
+        private void StackPanel_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ClickCount >= 2)
+            {
+                ItemDetailViewModel viewModel = (ItemDetailViewModel)DataContext;
+                viewModel
+                    .StartEditionCommand
+                    .Execute(null);
+            }
+        }
+
+        private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (((ComboBox)sender).SelectedValue is not Category category) return;
+            ItemDetailViewModel viewModel = (ItemDetailViewModel)(DataContext);
+            viewModel.ChangeCategorySelected(category);
         }
     }
 }
