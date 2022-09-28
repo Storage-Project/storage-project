@@ -176,9 +176,7 @@ namespace storage_app.ViewModels
         private void EndEditWithSave()
         {
             Product.Category = SelectedCategory;
-            Trace.WriteLine(Product.Category.Description);
-            Trace.WriteLine(Product.Description);
-
+            productService.UpdateProduct(Product.Id, Product);
             _originalProduct = Product;
             EndEdition();
         }
