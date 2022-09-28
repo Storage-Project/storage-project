@@ -61,18 +61,25 @@ namespace storage_app.Services
             return false;
         }
 
-        protected async Task<T> PutAsync<T>(string Path, string Route, T Body)
+        protected async Task<T?> PutAsync<T>(string Path, T Body)
         {
             using var client = new HttpClient();
 
-            var baseUri = new Uri(_baseUrl);
-            client.BaseAddress = new Uri(baseUri, Route);
+            client.BaseAddress = new Uri(_baseUrl);
+
+            client
+                .DefaultRequestHeaders
+                .Clear();
+
+            client
+                .DefaultRequestHeaders
+                .Accept
+                .Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
             var content = JsonConvert.SerializeObject(Body);
-            var buffer = Encoding.UTF8.GetBytes(content);
-            var ByteContent = new ByteArrayContent(buffer);
-
-            HttpResponseMessage Res = await client.PutAsync(Path, ByteContent);
+            HttpContent httpContent = new StringContent(content, Encoding.UTF8, "application/json");
+            
+            HttpResponseMessage Res = await client.PutAsync(Path, httpContent);
 
             if (Res.IsSuccessStatusCode)
             {
