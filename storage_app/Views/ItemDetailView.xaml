@@ -37,14 +37,14 @@
                         VerticalContentAlignment="Center" 
                         Height="28" 
                         Width="auto"
-                        Text="{Binding Product.Id, Mode=OneWay}"
+                        Text="{Binding Product.Id}"
                         IsEnabled="False"/>
 
                     <TextBox 
                         VerticalContentAlignment="Center" 
                         Height="28" 
                         Width="auto"
-                        Text="{Binding Product.Description, Mode=OneWay}"
+                        Text="{Binding Product.Description}"
                         IsEnabled="False"/>
                     
                     <TextBox 
@@ -58,7 +58,7 @@
                         VerticalContentAlignment="Center" 
                         Height="28" 
                         Width="auto"
-                        Text="{Binding Product.Quantity, Mode=OneWay}"
+                        Text="{Binding Product.Quantity}"
                         IsEnabled="{Binding Editing.IsEditing}"/>
 
                     <ComboBox 
