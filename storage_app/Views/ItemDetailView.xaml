@@ -63,12 +63,11 @@
 
                     <ComboBox 
                         IsEditable="{Binding Editing.IsNotEditing}"
-                        IsReadOnly="True"
+                        IsReadOnly="{Binding Editing.IsNotEditing}"
                         IsEnabled="{Binding Editing.IsEditing}"
-                        Text="{Binding Product.Category.Description}"
+                        Text="{Binding SelectedCategory.Description}"
                         ItemsSource="{Binding Categories}"
-                        SelectedItem="{Binding Product.Category.Description, Mode=OneWay}"
-                        SelectionChanged="ComboBox_SelectionChanged"
+                        SelectedItem="{Binding SelectedCategory}"
                         Height="28">
                         <ComboBox.ItemTemplate>
                             <DataTemplate>

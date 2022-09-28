@@ -25,12 +25,5 @@ namespace storage_app.Views
                     .Execute(null);
             }
         }
-
-        private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (((ComboBox)sender).SelectedValue is not Category category) return;
-            ItemDetailViewModel viewModel = (ItemDetailViewModel)(DataContext);
-            viewModel.ChangeCategorySelected(category);
-        }
     }
 }
