@@ -86,7 +86,8 @@ namespace storage_app.ViewModels
             {
                 SelectedCategory = product.Category;
                 Product = product;
-                _originalProduct = new() {
+                _originalProduct = new() 
+                {
                     Id = product.Id,
                     Description = product.Description,
                     Quantity = product.Quantity,
@@ -154,7 +155,9 @@ namespace storage_app.ViewModels
         }
         private void EndInsertWithAdd()
         {
-            // DO THING IN BACKEND
+            Product.Category = SelectedCategory;
+            var task = Task.Run(async () =>  await productService.InsertProduct(Product));
+            if (task.Result is Product product) Product = product;
             _originalProduct = Product;
             EndEdition();
         }
