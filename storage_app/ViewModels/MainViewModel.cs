@@ -64,7 +64,7 @@ namespace storage_app.ViewModels
         public MainViewModel(IProductService productService, ICategoryService categoryService)
         {
             _itemDetailViewModel =
-                new ItemDetailViewModel(categoryService);
+                new ItemDetailViewModel(categoryService, productService);
 
             _selectedProductActionViewModel =
                 new SelectedProductActionViewModel();

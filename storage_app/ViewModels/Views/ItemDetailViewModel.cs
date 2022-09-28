@@ -34,6 +34,17 @@ namespace storage_app.ViewModels
             }
         }
 
+        private Category _selectedCategory = new();
+        public Category SelectedCategory
+        {
+            get { return _selectedCategory; }
+            set
+            {
+                _selectedCategory = value;
+                OnPropertyChanged(nameof(SelectedCategory));
+            }
+        }
+
         private List<Category> _categories = new();
         public List<Category> Categories
         {
@@ -46,9 +57,13 @@ namespace storage_app.ViewModels
         }
 
         private readonly ICategoryService categoryService;
+        private readonly IProductService productService;
 
-        public ItemDetailViewModel(ICategoryService categoryService)
+        public ItemDetailViewModel(
+            ICategoryService categoryService,
+            IProductService productService)
         {
+            this.productService = productService;
             this.categoryService = categoryService;
             GetCategories();
 
@@ -69,6 +84,7 @@ namespace storage_app.ViewModels
         {
             if (product != null)
             {
+                SelectedCategory = product.Category;
                 Product = product;
                 _originalProduct = new() {
                     Id = product.Id,
@@ -79,15 +95,6 @@ namespace storage_app.ViewModels
                     Create_at = product.Create_at,
                 };
             }
-        }
-
-        public void ChangeCategorySelected(Category category)
-        {
-            Product.Category = new()
-            {
-                Id = category.Id,
-                Description= category.Description,
-            };
         }
 
         private StartInsertion? _startInsertionCommand;
@@ -168,7 +175,10 @@ namespace storage_app.ViewModels
 
         private void EndEditWithSave()
         {
-            // DO THING IN BACKEND
+            Product.Category = SelectedCategory;
+            Trace.WriteLine(Product.Category.Description);
+            Trace.WriteLine(Product.Description);
+
             _originalProduct = Product;
             EndEdition();
         }
@@ -189,6 +199,7 @@ namespace storage_app.ViewModels
 
         private void EndWithCancel()
         {
+            SelectedCategory = _originalProduct.Category;
             Product = _originalProduct;
             EndEdition();
         }
