@@ -45,7 +45,12 @@
                 <ColumnDefinition Width="auto"/>
             </Grid.ColumnDefinitions>
             
-            <Button Margin="5 3" Padding="5 0" Content="Insert" Grid.Column="0"/>
+            <Button 
+                Margin="5 3" 
+                Padding="5 0" 
+                Content="Insert" 
+                Grid.Column="0"
+                Command="{Binding ItemDetailViewModel.StartInsertionCommand}"/>
             <Button Margin="5 3" Padding="5 0" Content="Delete" Grid.Column="1"/>
             <Button Margin="5 3" Padding="5 0" Content="Sell" Grid.Column="2"/>
             <Button Margin="5 3" Padding="5 0" Content="Generate Report" Grid.Column="3"/>

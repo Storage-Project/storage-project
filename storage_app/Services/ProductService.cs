@@ -54,9 +54,9 @@ namespace storage_app.Services
             return product;
         }
 
-        public async Task<bool> InsertProduct(Product product)
+        public async Task<Product?> InsertProduct(Product product)
         {
-            return await PostAsync<Product>("/products", product);
+            return await PostAsync<Product>("v1/products", product);
         }
 
         public async Task<bool> DeleteProduct(int Id)
