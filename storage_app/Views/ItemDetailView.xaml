@@ -24,11 +24,11 @@
                 </Grid.ColumnDefinitions>
 
                 <StackPanel Grid.Column="0">
-                    <Label Height="28" Width="auto">Código</Label>
-                    <Label Height="28" Width="auto">Descrição</Label>
-                    <Label Height="28" Width="auto">Preço</Label>
+                    <Label Height="28" Width="auto">Code</Label>
+                    <Label Height="28" Width="auto">Description</Label>
+                    <Label Height="28" Width="auto">Price</Label>
                     <Label Height="28" Width="auto">Quantity</Label>
-                    <Label Height="28" Width="auto">Categoria</Label>
+                    <Label Height="28" Width="auto">Category</Label>
                 </StackPanel>
                 <StackPanel
                     Grid.Column="1"
@@ -45,7 +45,7 @@
                         Height="28" 
                         Width="auto"
                         Text="{Binding Product.Description}"
-                        IsEnabled="False"/>
+                        IsEnabled="{Binding Editing.IsAdding}"/>
                     
                     <TextBox 
                         VerticalContentAlignment="Center" 
