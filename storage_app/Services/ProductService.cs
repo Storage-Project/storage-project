@@ -64,15 +64,17 @@ namespace storage_app.Services
             return await DeleteAsync<Product>("/products", Convert.ToString(Id));
         }
 
-        public async Task<Product> UpdateProduct(int Id, Product product)
+        public async Task<Product?> UpdateProduct(int Id, Product product)
         {
-            return await PutAsync<Product>("/products", Convert.ToString(Id), product);
+            string Path = String.Concat("v1/products/", Id);
+            return await PutAsync<Product>(Path, product);
         }
 
-        public async Task<Product> SellProduct(int Id, int quantity, Product product)
+        public Task<Product> SellProduct(int Id, int quantity, Product product)
         {
-            var route = String.Concat(Convert.ToString(Id), Convert.ToString(quantity));
-            return await PutAsync<Product>("/products", route, product);
+            //    var route = String.Concat(Convert.ToString(Id), Convert.ToString(quantity));
+            //    return await PutAsync<Product>("/products", route, product);
+            throw new NotImplementedException();
         }
     }
 }

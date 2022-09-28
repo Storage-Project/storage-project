@@ -63,6 +63,9 @@ namespace storage_app.ViewModels
 
         public MainViewModel(IProductService productService, ICategoryService categoryService)
         {
+            _itemDetailViewModel =
+                new ItemDetailViewModel(categoryService, productService);
+
             _selectedProductActionViewModel =
                 new SelectedProductActionViewModel();
             BuildSelectedProductAction();
@@ -76,9 +79,6 @@ namespace storage_app.ViewModels
 
             _filterViewModel =
                 new FilterViewModel(categoryService, SearchActionViewModel);
-
-            _itemDetailViewModel =
-                new ItemDetailViewModel(categoryService);
         }
 
         public void BuildSearchAction()
@@ -87,7 +87,8 @@ namespace storage_app.ViewModels
                 new Searcher(
                     f => 
                     { 
-                        StorageDataGridViewModel.GetProducts(f as Filter); 
+                        if (_storageDataGridViewModel != null)
+                            StorageDataGridViewModel.GetProducts(f as Filter); 
                     });
         }
 
@@ -97,7 +98,8 @@ namespace storage_app.ViewModels
                 new SelectedProduct(
                     p =>
                     {
-                        ItemDetailViewModel.UpdateSelectedProduct(p as Product);
+                        if (_itemDetailViewModel != null)
+                            ItemDetailViewModel.UpdateSelectedProduct(p as Product);
                     });
         }
     }

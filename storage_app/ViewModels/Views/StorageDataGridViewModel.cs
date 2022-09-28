@@ -73,6 +73,11 @@ namespace storage_app.ViewModels
                     );
                 Products = task.Result;
             }
+
+            if (Products.Count > 0) SelectedProduct = Products[0];
+            else SelectedProduct = new Product();
+            
+            SelectedProductActionViewModel.SelectedProductCommand.Execute(SelectedProduct);
         }
     }
 }
