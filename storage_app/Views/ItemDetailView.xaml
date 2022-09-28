@@ -45,7 +45,7 @@
                         Height="28" 
                         Width="auto"
                         Text="{Binding Product.Description, Mode=OneWay}"
-                        IsEnabled="{Binding Editing.IsEditing}"/>
+                        IsEnabled="False"/>
                     
                     <TextBox 
                         VerticalContentAlignment="Center" 
