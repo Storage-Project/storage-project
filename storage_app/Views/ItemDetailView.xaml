@@ -51,7 +51,7 @@
                         VerticalContentAlignment="Center" 
                         Height="28" 
                         Width="auto"
-                        Text="{Binding Product.Price, Mode=OneWay}"
+                        Text="{Binding Product.Price, StringFormat=C}"
                         IsEnabled="{Binding Editing.IsEditing}"/>
 
                     <TextBox 
