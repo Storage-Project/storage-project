@@ -11,5 +11,7 @@ namespace storage.Models{
         [Required]
         public Category Category { get; set; } = new();
         public DateTimeOffset Create_at { get; set; } = DateTimeOffset.Now;
+        public int SellingCount { get; set; }
+       
     }
 }
