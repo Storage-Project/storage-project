@@ -106,6 +106,7 @@ namespace storage.Repository
                 prod.Price = product.Price;
                 prod.Quantity = product.Quantity;
                 prod.Category = category;
+                prod.SellingCount = product.SellingCount;
                 
                 _products.Update(prod);
                 await _context.SaveChangesAsync();
