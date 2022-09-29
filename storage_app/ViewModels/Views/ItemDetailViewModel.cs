@@ -69,6 +69,7 @@ namespace storage_app.ViewModels
 
             _startEditionCommand = new((_) => StartEdition());
             _startInsertionCommand = new((_) => StartInsertion());
+            _startDeletionCommand = new((_) => StartDeletion());
             _addCommand = new((_) => EndInsertWithAdd());
             _saveCommand = new((_) => EndEditWithSave());
             _cancelCommand = new((_) => EndWithCancel());
@@ -118,6 +119,43 @@ namespace storage_app.ViewModels
             Editing.IsEditing = true;
             Editing.IsAdding = true;
             OnPropertyChanged(nameof(Editing));
+        }
+
+        private StartDeletion? _startDeletionCommand;
+        public StartDeletion StartDeletionCommand
+        {
+            get
+            {
+                if (_startDeletionCommand == null)
+                    _startDeletionCommand = new StartDeletion(_ => { });
+                return _startDeletionCommand;
+            }
+            set
+            {
+                _startDeletionCommand = value;
+            }
+        }
+        private void StartDeletion()
+        {
+            if (Product == null)
+            {
+                ShowMessage.ErrorMessage("No product selected");
+            }
+            var resp = ShowMessage.QuestionMessage($"Are you sure you want to delete product with id {Product.Id}?");
+            if (!resp)
+            {
+                return;
+            }
+            var task = Task.Run(async () => await productService.DeleteProduct(Product.Id)).Result;
+
+            if (task == true)
+            {
+                ShowMessage.DefaultMessage("Product deleted!");
+            }
+            else
+            {
+                ShowMessage.ErrorMessage($"Error on deleting{task}");
+            }
         }
         private StartEdition? _startEditionCommand;
         public StartEdition StartEditionCommand
@@ -221,6 +259,11 @@ namespace storage_app.ViewModels
     internal class StartInsertion : CommandExecutor
     {
         public StartInsertion(Action<object?> action) : base(action) { }
+    }
+
+    internal class StartDeletion : CommandExecutor
+    {
+        public StartDeletion(Action<object?> action) : base(action) { }
     }
 
     internal class AddCommand : CommandExecutor
