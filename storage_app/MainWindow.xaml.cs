@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using storage_app.Utils;
 
 namespace storage_app
 {
@@ -10,6 +11,26 @@ namespace storage_app
         public MainWindow()
         {
             InitializeComponent();
+        }
+
+        private void ItemDetailView_Loaded(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Button_Click_1()
+        {
+
+        }
+
+        private void Button_Click_2(object sender, RoutedEventArgs e)
+        {
+            ShowMessage.DefaultMessage("hschsd");
         }
     }
 }
