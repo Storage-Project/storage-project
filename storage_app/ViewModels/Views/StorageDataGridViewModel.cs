@@ -2,8 +2,12 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using System.Windows;
+using FileHelpers;
+
 using storage_app.Models;
 using storage_app.Services;
+using storage_app.Utils;
 using storage_app.Utils.Objects;
 using storage_app.ViewModels.Actions;
 
@@ -45,13 +49,65 @@ namespace storage_app.ViewModels
         }
 
         private readonly IProductService productService;
+
+        private StartExporting? _startExportingCommand;
+        public StartExporting StartExportingCommand
+        {
+            get
+            {
+                if (_startExportingCommand == null)
+                    _startExportingCommand = new StartExporting(_ => { });
+                return _startExportingCommand;
+            }
+            set
+            {
+                _startExportingCommand = value;
+            }
+        }
         public StorageDataGridViewModel(
             IProductService productService,
             SelectedProductActionViewModel selectedProductActionViewModel)
         {
+            _startExportingCommand = new((_) => StartExporting());
             _selectedProductActionViewModel = selectedProductActionViewModel;
             this.productService = productService;
             GetProducts();
+        }
+
+        public void StartExporting()
+        {
+
+            var path = ChoosePath();
+            if (path != "")
+            {
+                var engine = new FileHelperEngine<Product>();
+                engine.WriteFile(path, _products);
+                ShowMessage.DefaultMessage($"File saved on {path}");
+            }
+            else
+            {
+                ShowMessage.ErrorMessage("No path selected!");
+            }
+            
+        }
+
+        public string ChoosePath()
+        {
+            var initial = "";
+            string path = "";
+            var dialog = new Microsoft.Win32.SaveFileDialog();
+            dialog.FileName = "report.csv";
+            dialog.Title = "Select a Directory";
+            dialog.InitialDirectory = initial;
+            if (dialog.ShowDialog() == true)
+            {
+                path = dialog.FileName;
+                if (!path.EndsWith(".csv"))
+                {
+                    path += ".csv";
+                }
+            }
+            return path;
         }
 
         public void GetProducts(Filter? filter = null)
@@ -79,5 +135,10 @@ namespace storage_app.ViewModels
             
             SelectedProductActionViewModel.SelectedProductCommand.Execute(SelectedProduct);
         }
+        
+    }
+    internal class StartExporting : CommandExecutor
+    {
+        public StartExporting(Action<object?> action) : base(action) { }
     }
 }
