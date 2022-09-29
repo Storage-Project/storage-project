@@ -103,12 +103,13 @@ namespace storage_app.Services
             return default;
         }
 
-        protected async Task<bool> DeleteAsync<T>(string Path, string Route)
+        protected async Task<bool> DeleteAsync<T>(string Path)
         {
             using var client = new HttpClient();
 
             var baseUri = new Uri(_baseUrl);
-            client.BaseAddress = new Uri(baseUri, Route);
+
+            client.BaseAddress = baseUri;
 
             HttpResponseMessage Res = await client.DeleteAsync(Path);
 
