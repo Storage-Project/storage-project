@@ -28,9 +28,6 @@ namespace storage_app
 
         }
 
-        private void Button_Click_2(object sender, RoutedEventArgs e)
-        {
-            ShowMessage.DefaultMessage("hschsd");
-        }
+        
     }
 }
