@@ -61,7 +61,8 @@ namespace storage_app.Services
 
         public async Task<bool> DeleteProduct(int Id)
         {
-            return await DeleteAsync<Product>("/products", Convert.ToString(Id));
+            string Path = String.Concat("v1/products/", Id);
+            return await DeleteAsync<Product>(Path);
         }
 
         public async Task<Product?> UpdateProduct(int Id, Product product)
