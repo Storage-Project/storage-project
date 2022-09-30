@@ -136,8 +136,10 @@ namespace storage.Controllers
                 if (product == null)
                     return NotFound();
 
-                if ((product.Quantity - quantity) >= 0)
+                if ((product.Quantity - quantity) >= 0) {
                     product.Quantity = product.Quantity - quantity;
+                    product.SellingCount += 1;
+                }
                 else
                     return BadRequest("unable to sell this quantity");
 
@@ -147,6 +149,7 @@ namespace storage.Controllers
                     Price = product.Price,
                     Quantity = product.Quantity,
                     Category = product.Category,
+                    SellingCount = product.SellingCount
 
                 };
                 var prod_updated = _repository.UpdateProduct(to_update, id);

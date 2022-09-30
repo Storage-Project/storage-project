@@ -15,7 +15,7 @@ namespace storage_app.Models
         public Category Category { get; set; } = new();
         [FieldConverter(typeof(DateTimeConverter))]
         public DateTimeOffset Create_at { get; set; } = DateTimeOffset.Now;
-
+        public int SellingCount { get; set; } = 0;
         internal class CategoryConverter : ConverterBase
         {
             public override object StringToField(string from)
