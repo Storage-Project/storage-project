@@ -81,6 +81,7 @@ namespace storage_app.ViewModels
             if (path != "")
             {
                 var engine = new FileHelperEngine<Product>();
+                engine.HeaderText = engine.GetFileHeader();
                 engine.WriteFile(path, _products);
                 ShowMessage.DefaultMessage($"File saved on {path}");
             }
