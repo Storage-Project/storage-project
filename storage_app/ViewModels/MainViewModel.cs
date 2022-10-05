@@ -39,6 +39,17 @@ namespace storage_app.ViewModels
             }
         }
 
+        private SellViewModel _sellViewModel;
+        public SellViewModel SellViewModel
+        {
+            get { return _sellViewModel; }
+            set
+            {
+                _sellViewModel = value;
+                OnPropertyChanged(nameof(_sellViewModel));
+            }
+        }
+
         private SearchActionViewModel _searchActionViewModel;
         public SearchActionViewModel SearchActionViewModel
         {
@@ -63,6 +74,9 @@ namespace storage_app.ViewModels
 
         public MainViewModel(IProductService productService, ICategoryService categoryService)
         {
+            _sellViewModel =
+                new SellViewModel(productService);
+
             _itemDetailViewModel =
                 new ItemDetailViewModel(categoryService, productService);
 

@@ -63,6 +63,7 @@
                 Padding="5 0" 
                 Content="Sell" 
                 Grid.Column="2"
+                Click="Sell_Button_Click"
                 />
             <Button 
                 Margin="5 3" 
@@ -91,7 +92,28 @@
             <views:ItemDetailView
                 Grid.Column="1"
                 Margin="5 0 0 0"
-                DataContext="{Binding ItemDetailViewModel}" Loaded="ItemDetailView_Loaded"/>
+                DataContext="{Binding ItemDetailViewModel}"/>
         </Grid>
+
+        <Popup 
+            Name="SellPopup" 
+            Margin="10,10,0,13"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Width="194"
+            Height="200"
+            Placement="Center"
+            DataContext="{Binding SellViewModel}">
+
+            <Border BorderBrush="DarkGray" BorderThickness="2">
+                <Grid Background="White">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                </Grid>
+            </Border>
+        </Popup>
     </Grid>
 </Window>

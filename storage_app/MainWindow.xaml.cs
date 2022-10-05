@@ -13,21 +13,9 @@ namespace storage_app
             InitializeComponent();
         }
 
-        private void ItemDetailView_Loaded(object sender, RoutedEventArgs e)
+        private void Sell_Button_Click(object sender, RoutedEventArgs e)
         {
-
+            SellPopup.IsOpen = true;
         }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void Button_Click_1()
-        {
-
-        }
-
-        
     }
 }
