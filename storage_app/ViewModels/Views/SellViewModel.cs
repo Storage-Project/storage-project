@@ -56,7 +56,7 @@ namespace storage_app.ViewModels
             Products = task.Result;
         }
 
-        private void SellProduct()
+        private bool SellProduct()
         {
             var task = Task.Run(
                 async () =>
@@ -65,6 +65,9 @@ namespace storage_app.ViewModels
                     QuantityToSell,
                     SelectedProduct)
                 );
+
+            if (task.Result == null) return false;
+            else return true;
         }
 
         private SellProduct? _startSelling;
@@ -73,7 +76,7 @@ namespace storage_app.ViewModels
             get
             {
                 if (_startSelling == null)
-                    _startSelling = new SellProduct(_ => { });
+                    _startSelling = new SellProduct((_) => { return false; });
                 return _startSelling;
             }
             set
@@ -85,6 +88,6 @@ namespace storage_app.ViewModels
 
     internal class SellProduct : CommandExecutor
     {
-        public SellProduct(Action<object?> action) : base(action) { }
+        public SellProduct(Func<object?, dynamic> func) : base(func) { }
     }
 }

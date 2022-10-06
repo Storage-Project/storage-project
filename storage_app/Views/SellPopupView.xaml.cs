@@ -1,4 +1,5 @@
-﻿using System;
+﻿using storage_app.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -25,13 +26,25 @@ namespace storage_app.Views
             InitializeComponent();
         }
 
-        private void ComboBox_TextInput(object sender, TextCompositionEventArgs e)
-        {
-
-        }
-
         private void Close_Button_Click(object sender, RoutedEventArgs e)
         {
+            SellPopup.IsOpen = false;
+        }
+
+        private void Sell_Button_Click(object sender, RoutedEventArgs e)
+        {
+            SellViewModel viewModel = (SellViewModel)DataContext;
+
+            if (!viewModel.StartSelling.IsFunc) return;
+
+            dynamic result = viewModel
+                                .StartSelling
+                                .ExecuteFunc(null);
+
+            if (result is not bool &&
+                result == false) return;
+
+            SellPopup.IsOpen = false;
         }
     }
 }
