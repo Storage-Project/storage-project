@@ -31,6 +31,17 @@ namespace storage_app.ViewModels
             }
         }
 
+        private int _quantityToSell = 0;
+        public int QuantityToSell
+        {
+            get { return _quantityToSell; }
+            set
+            {
+                _quantityToSell = value;
+                OnPropertyChanged(nameof(QuantityToSell));
+            }
+        }
+
         private readonly IProductService productService;
         public SellViewModel(IProductService productService)
         {
@@ -51,7 +62,7 @@ namespace storage_app.ViewModels
                 async () =>
                 await productService.SellProduct(
                     SelectedProduct.Id,
-                    0,
+                    QuantityToSell,
                     SelectedProduct)
                 );
         }

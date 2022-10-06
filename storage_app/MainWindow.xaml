@@ -102,18 +102,9 @@
             VerticalAlignment="Top"
             Width="194"
             Height="200"
-            Placement="Center"
-            DataContext="{Binding SellViewModel}">
+            Placement="Center">
 
-            <Border BorderBrush="DarkGray" BorderThickness="2">
-                <Grid Background="White">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
-                </Grid>
-            </Border>
+            <views:SellPopupView DataContext="{Binding SellViewModel}"/>
         </Popup>
     </Grid>
 </Window>
