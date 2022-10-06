@@ -10,67 +10,78 @@
              mc:Ignorable="d" 
 
              d:DesignHeight="240" d:DesignWidth="194">
-    <Border BorderBrush="DarkGray" BorderThickness="2">
-        <Grid Background="White">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
+    <Popup 
+        Name="SellPopup" 
+        HorizontalAlignment="Left"
+        VerticalAlignment="Top"
+        Width="194"
+        Height="240"
+        Placement="Center">
 
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
+        <Border BorderBrush="DarkGray" BorderThickness="2">
 
-            </Grid.RowDefinitions>
+            <Grid Background="White">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
 
-            <Button
-                Grid.Column="3"
-                Grid.Row="0"
-                Content="X"
-                Margin="10 5"
-                Background="IndianRed"
-                Click="Close_Button_Click"/>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
 
-            <ComboBox 
-                Grid.Row="1"
-                Grid.Column="1"
-                Grid.ColumnSpan="2"
-                IsEditable="True"
-                IsReadOnly="False"
-                IsEnabled="True"
-                Text="{Binding SelectedProduct.Description}"
-                ItemsSource="{Binding Products}"
-                SelectedItem="{Binding SelectedProduct}"
-                Height="28">
-                <ComboBox.ItemTemplate>
-                    <DataTemplate>
-                        <TextBlock
-                            Text="{Binding Description, Mode=OneTime}"
-                            Width="auto" />
-                    </DataTemplate>
-                </ComboBox.ItemTemplate>
-            </ComboBox>
+                </Grid.RowDefinitions>
 
-            <TextBox
-                Grid.Row="3"
-                Grid.Column="1"
-                Grid.ColumnSpan="2"
-                Text="{Binding QuantityToSell, StringFormat=N0}"
-                />
+                <Button
+                    Grid.Column="3"
+                    Grid.Row="0"
+                    Content="X"
+                    Margin="10 5"
+                    Background="IndianRed"
+                    Click="Close_Button_Click"/>
 
-            <Button
-                Content="Sell"
-                Grid.Column="1"
-                Grid.Row="5"
-                Grid.ColumnSpan="2"
-                Command="{Binding StartSelling}"/>
-        </Grid>
-    </Border>
+                <ComboBox 
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    Grid.ColumnSpan="2"
+                    IsEditable="True"
+                    IsReadOnly="False"
+                    IsEnabled="True"
+                    Text="{Binding SelectedProduct.Description}"
+                    ItemsSource="{Binding Products}"
+                    SelectedItem="{Binding SelectedProduct}"
+                    Height="28">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock
+                                Text="{Binding Description, Mode=O}"
+                                Width="auto" />
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+
+                <TextBox
+                    Grid.Row="3"
+                    Grid.Column="1"
+                    Grid.ColumnSpan="2"
+                    Text="{Binding QuantityToSell, StringFormat=N0}"
+                    />
+
+                <Button
+                    Content="Sell"
+                    Grid.Column="1"
+                    Grid.Row="5"
+                    Grid.ColumnSpan="2"
+                    Click="Sell_Button_Click"/>
+                
+            </Grid>
+        </Border>
+    </Popup>
 </UserControl>

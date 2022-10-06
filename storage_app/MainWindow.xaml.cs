@@ -15,7 +15,7 @@ namespace storage_app
 
         private void Sell_Button_Click(object sender, RoutedEventArgs e)
         {
-            SellPopup.IsOpen = true;
+            SellPopupView.SellPopup.IsOpen = true;
         }
     }
 }
