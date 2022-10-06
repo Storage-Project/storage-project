@@ -103,6 +103,36 @@ namespace storage_app.Services
             return default;
         }
 
+        protected async Task<T?> PutAsync<T>(string Path)
+        {
+            using var client = new HttpClient();
+
+            client.BaseAddress = new Uri(_baseUrl);
+
+            client
+                .DefaultRequestHeaders
+                .Clear();
+
+            client
+                .DefaultRequestHeaders
+                .Accept
+                .Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+            HttpContent httpContent = new StringContent(String.Empty, Encoding.UTF8, "application/json");
+
+            HttpResponseMessage Res = await client.PutAsync(Path, httpContent);
+
+            if (Res.IsSuccessStatusCode)
+            {
+                var EmpResponse = Res.Content.ReadAsStringAsync().Result;
+                T result = JsonConvert.DeserializeObject<T>(EmpResponse);
+
+                return result;
+            }
+
+            return default;
+        }
+
         protected async Task<bool> DeleteAsync<T>(string Path)
         {
             using var client = new HttpClient();
