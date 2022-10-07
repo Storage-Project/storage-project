@@ -1,0 +1,87 @@
+﻿<UserControl x:Class="storage_app.Views.SellPopupView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:storage_app.Views" 
+             xmlns:extensions="using:Microsoft.Toolkit.Uwp.UI.Extensions"
+
+             xmlns:viewmodels="clr-namespace:storage_app.ViewModels" d:DataContext="{d:DesignInstance Type=viewmodels:SellViewModel}"
+             mc:Ignorable="d" 
+
+             d:DesignHeight="240" d:DesignWidth="194">
+    <Popup 
+        Name="SellPopup" 
+        HorizontalAlignment="Left"
+        VerticalAlignment="Top"
+        Width="194"
+        Height="240"
+        Placement="Center">
+
+        <Border BorderBrush="DarkGray" BorderThickness="2">
+
+            <Grid Background="White">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+
+                </Grid.RowDefinitions>
+
+                <Button
+                    Grid.Column="3"
+                    Grid.Row="0"
+                    Content="X"
+                    Margin="10 5"
+                    Background="IndianRed"
+                    Click="Close_Button_Click"/>
+
+                <ComboBox 
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    Grid.ColumnSpan="2"
+                    IsEditable="True"
+                    IsReadOnly="False"
+                    IsEnabled="True"
+                    Text="{Binding SelectedProduct.Description}"
+                    ItemsSource="{Binding Products}"
+                    SelectedItem="{Binding SelectedProduct}"
+                    Height="28">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock
+                                Text="{Binding Description, Mode=O}"
+                                Width="auto" />
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+
+                <TextBox
+                    Grid.Row="3"
+                    Grid.Column="1"
+                    Grid.ColumnSpan="2"
+                    Text="{Binding QuantityToSell, StringFormat=N0}"
+                    />
+
+                <Button
+                    Content="Sell"
+                    Grid.Column="1"
+                    Grid.Row="5"
+                    Grid.ColumnSpan="2"
+                    Click="Sell_Button_Click"/>
+                
+            </Grid>
+        </Border>
+    </Popup>
+</UserControl>

@@ -43,5 +43,10 @@ namespace storage_app.Models
 
         }
 
+        public override string ToString()
+        {
+            return this.Description;
+        }
+
     }
 }

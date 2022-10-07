@@ -50,7 +50,8 @@
                 Padding="5 0" 
                 Content="Insert" 
                 Grid.Column="0"
-                Command="{Binding ItemDetailViewModel.StartInsertionCommand}"/>
+                Command="{Binding ItemDetailViewModel.StartInsertionCommand}"
+                />
             <Button 
                 Margin="5 3" 
                 Padding="5 0" 
@@ -63,6 +64,7 @@
                 Padding="5 0" 
                 Content="Sell" 
                 Grid.Column="2"
+                Click="Sell_Button_Click"
                 />
             <Button 
                 Margin="5 3" 
@@ -91,7 +93,11 @@
             <views:ItemDetailView
                 Grid.Column="1"
                 Margin="5 0 0 0"
-                DataContext="{Binding ItemDetailViewModel}" Loaded="ItemDetailView_Loaded"/>
+                DataContext="{Binding ItemDetailViewModel}"/>
         </Grid>
+
+        <views:SellPopupView 
+            x:Name="SellPopupView"
+            DataContext="{Binding SellViewModel}"/>
     </Grid>
 </Window>

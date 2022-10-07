@@ -92,14 +92,16 @@ namespace storage_app.ViewModels
             
         }
 
-        public string ChoosePath()
+        public static string ChoosePath()
         {
             var initial = "";
             string path = "";
-            var dialog = new Microsoft.Win32.SaveFileDialog();
-            dialog.FileName = "report.csv";
-            dialog.Title = "Select a Directory";
-            dialog.InitialDirectory = initial;
+            var dialog = new Microsoft.Win32.SaveFileDialog
+            {
+                FileName = "report.csv",
+                Title = "Select a Directory",
+                InitialDirectory = initial
+            };
             if (dialog.ShowDialog() == true)
             {
                 path = dialog.FileName;
