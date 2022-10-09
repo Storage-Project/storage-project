@@ -3,7 +3,6 @@ using storage_app.Services;
 using storage_app.Utils;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Threading.Tasks;
 
 namespace storage_app.ViewModels
@@ -30,7 +29,6 @@ namespace storage_app.ViewModels
             {
                 _selectedProduct = value;
                 OnPropertyChanged(nameof(SelectedProduct));
-                Trace.WriteLine(SelectedProduct);
             }
         }
 
