@@ -3,20 +3,22 @@ using storage_app.Services;
 using storage_app.Utils;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Threading.Tasks;
 
 namespace storage_app.ViewModels
 {
     internal class SellViewModel : ViewModelBase
     {
-        private List<Product> _products = new();
-        public List<Product> Products
+        private List<Product> OriginalProducts = new();
+        private List<Product> _filteredProducts = new();
+        public List<Product> FilteredProducts
         {
-            get { return _products; }
+            get { return _filteredProducts; }
             set
             {
-                _products = value;
-                OnPropertyChanged(nameof(Products));
+                _filteredProducts = value;
+                OnPropertyChanged(nameof(FilteredProducts));
             }
         }
 
@@ -28,6 +30,7 @@ namespace storage_app.ViewModels
             {
                 _selectedProduct = value;
                 OnPropertyChanged(nameof(SelectedProduct));
+                Trace.WriteLine(SelectedProduct);
             }
         }
 
@@ -39,6 +42,17 @@ namespace storage_app.ViewModels
             {
                 _quantityToSell = value;
                 OnPropertyChanged(nameof(QuantityToSell));
+                CanSell = _quantityToSell > 0;
+            }
+        }
+        private bool _canSell = false;
+        public bool CanSell
+        {
+            get { return _canSell; }
+            set
+            {
+                _canSell = value;
+                OnPropertyChanged(nameof(CanSell));
             }
         }
 
@@ -53,7 +67,26 @@ namespace storage_app.ViewModels
         private void GetProducts()
         {
             var task = Task.Run(async () => await productService.GetProducts());
-            Products = task.Result;
+            OriginalProducts = task.Result;
+            FilterProductsByDescription(string.Empty);
+        }
+
+        public void FilterProductsByDescription(string text)
+        {
+            if (string.IsNullOrEmpty(text))
+            {
+                FilteredProducts = OriginalProducts;
+                return;
+            }
+
+            FilteredProducts =
+                OriginalProducts
+                .FindAll(
+                    p => 
+                    p.Description
+                    .ToLower().Trim()
+                    .Contains(text, StringComparison.CurrentCultureIgnoreCase)
+                    );
         }
 
         private bool SellProduct()

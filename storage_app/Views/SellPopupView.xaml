@@ -2,11 +2,10 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:storage_app.Views" 
-             xmlns:extensions="using:Microsoft.Toolkit.Uwp.UI.Extensions"
-
-             xmlns:viewmodels="clr-namespace:storage_app.ViewModels" d:DataContext="{d:DesignInstance Type=viewmodels:SellViewModel}"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:viewmodels="clr-namespace:storage_app.ViewModels"
+             xmlns:components="clr-namespace:storage_app.Components"
+             d:DataContext="{d:DesignInstance Type=viewmodels:SellViewModel}"
              mc:Ignorable="d" 
 
              d:DesignHeight="240" d:DesignWidth="194">
@@ -16,6 +15,7 @@
         VerticalAlignment="Top"
         Width="194"
         Height="240"
+        PlacementTarget="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}}"
         Placement="Center">
 
         <Border BorderBrush="DarkGray" BorderThickness="2">
@@ -51,34 +51,32 @@
                     Grid.Row="1"
                     Grid.Column="1"
                     Grid.ColumnSpan="2"
+                    Height="28"
+                    
+                    PreviewGotKeyboardFocus="ComboBox_PreviewGotKeyboardFocus"
+                    PreviewLostKeyboardFocus="ComboBox_PreviewLostKeyboardFocus"
                     IsEditable="True"
-                    IsReadOnly="False"
-                    IsEnabled="True"
-                    Text="{Binding SelectedProduct.Description}"
-                    ItemsSource="{Binding Products}"
-                    SelectedItem="{Binding SelectedProduct}"
-                    Height="28">
-                    <ComboBox.ItemTemplate>
-                        <DataTemplate>
-                            <TextBlock
-                                Text="{Binding Description, Mode=O}"
-                                Width="auto" />
-                        </DataTemplate>
-                    </ComboBox.ItemTemplate>
-                </ComboBox>
+                    StaysOpenOnEdit="True"
+                    IsTextSearchEnabled="False"
+                    IsTextSearchCaseSensitive="False"
+                    Text="{Binding SelectedProduct.Description, Mode=OneWay}"
+                    ItemsSource="{Binding FilteredProducts}"
+                    PreviewKeyUp="ComboBox_PreviewKeyUp"
+                    SelectedItem="{Binding SelectedProduct}"/>
 
-                <TextBox
-                    Grid.Row="3"
+                <components:IntegerUpDown
                     Grid.Column="1"
                     Grid.ColumnSpan="2"
-                    Text="{Binding QuantityToSell, StringFormat=N0}"
-                    />
+                    Grid.Row="3"
+                    Integer="{Binding QuantityToSell, Mode=TwoWay}"
+                    Maximum="{Binding SelectedProduct.Quantity}"/>
 
                 <Button
                     Content="Sell"
                     Grid.Column="1"
                     Grid.Row="5"
                     Grid.ColumnSpan="2"
+                    IsEnabled="{Binding CanSell}"
                     Click="Sell_Button_Click"/>
                 
             </Grid>
