@@ -25,10 +25,5 @@ namespace storage_app.Views
                     .Execute(null);
             }
         }
-
-        private void Button_Click(object sender, System.Windows.RoutedEventArgs e)
-        {
-
-        }
     }
 }
