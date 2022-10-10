@@ -1,18 +1,8 @@
 ﻿using storage_app.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace storage_app.Views
 {
@@ -45,6 +35,27 @@ namespace storage_app.Views
                 result == false) return;
 
             SellPopup.IsOpen = false;
+        }
+
+        private void ComboBox_PreviewKeyUp(object sender, KeyEventArgs e)
+        {
+            if (sender is not ComboBox comboBox ||
+                DataContext is not SellViewModel viewModel) 
+                return;
+            comboBox.IsDropDownOpen = true;
+            viewModel.FilterProductsByDescription(comboBox.Text.ToLower().Trim());
+        }
+
+        private void ComboBox_PreviewGotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
+        {
+            if (sender is not ComboBox comboBox) return;
+            comboBox.IsDropDownOpen = true;
+        }
+
+        private void ComboBox_PreviewLostKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
+        {
+            if (sender is not ComboBox comboBox) return;
+            comboBox.IsDropDownOpen = false;
         }
     }
 }
