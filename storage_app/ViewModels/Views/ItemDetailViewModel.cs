@@ -5,7 +5,6 @@ using storage_app.Utils.Objects;
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Threading.Tasks;
 
 namespace storage_app.ViewModels
@@ -119,6 +118,7 @@ namespace storage_app.ViewModels
             Product = new();
             Editing.IsEditing = true;
             Editing.IsAdding = true;
+            SelectedCategory = _categories.Count > 0 ? _categories[0] : null;
             OnPropertyChanged(nameof(Editing));
         }
 
@@ -196,7 +196,15 @@ namespace storage_app.ViewModels
         {
             Product.Category = SelectedCategory;
             var task = Task.Run(async () =>  await productService.InsertProduct(Product));
-            if (task.Result is Product product) Product = product;
+            if (task.Result is Product product)
+            {
+                Product = product;
+                ShowMessage.DefaultMessage("Product saved!");
+            }
+            else
+            {
+                ShowMessage.ErrorMessage("Error saving product!");
+            }
             _originalProduct = Product;
             EndEdition();
         }
