@@ -13,8 +13,8 @@
         Name="SellPopup" 
         HorizontalAlignment="Left"
         VerticalAlignment="Top"
-        Width="194"
-        Height="300"
+        Width="250"
+        Height="425"
         PlacementTarget="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}}"
         Placement="Center">
 

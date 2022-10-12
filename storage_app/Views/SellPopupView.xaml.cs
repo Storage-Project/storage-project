@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using storage_app.Utils;
 
 namespace storage_app.Views
 {
@@ -31,10 +32,17 @@ namespace storage_app.Views
                                 .StartSelling
                                 .ExecuteFunc(null);
 
-            if (result is not bool &&
-                result == false) return;
-
-            SellPopup.IsOpen = false;
+            if(result is bool && result == false)
+            {
+                ShowMessage.ErrorMessage("This product cannot be sold in this quantity");
+                viewModel.QuantityToSell = 0;
+            }
+            else
+            {
+                ShowMessage.DefaultMessage("Product sold!");
+                SellPopup.IsOpen = false;
+            }
+            
         }
 
         private void ComboBox_PreviewKeyUp(object sender, KeyEventArgs e)
