@@ -226,7 +226,15 @@ namespace storage_app.ViewModels
         private void EndEditWithSave()
         {
             Product.Category = SelectedCategory;
-            productService.UpdateProduct(Product.Id, Product);
+            var product = productService.UpdateProduct(Product.Id, Product);
+            if (product != null)
+            {
+                ShowMessage.DefaultMessage("Product edited!");
+            }
+            else
+            {
+                ShowMessage.ErrorMessage("Error editing product");
+            }
             _originalProduct = Product;
             EndEdition();
         }
