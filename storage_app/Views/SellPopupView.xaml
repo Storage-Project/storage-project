@@ -14,9 +14,10 @@
         HorizontalAlignment="Left"
         VerticalAlignment="Top"
         Width="250"
-        Height="425"
+        Height="320"
         PlacementTarget="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}}"
-        Placement="Center">
+        Placement="Center"
+        Opened="SellPopupView_Opened">
 
         <Border BorderBrush="DarkGray" BorderThickness="2">
 
@@ -38,15 +39,18 @@
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
 
                 <Button
                     Grid.Column="3"
                     Grid.Row="0"
-                    Content="X"
-                    Margin="10 5"
+                    FontFamily="Marlett"
+                    Content="r"
+                    Margin="10 3"
                     Background="IndianRed"
                     Click="Close_Button_Click"/>
+                
                 <Label 
                     Grid.Row="1"
                     Grid.ColumnSpan="4"
@@ -57,6 +61,7 @@
                     FontWeight="SemiBold">
                     Sale Simulator
                 </Label>
+                
                 <ComboBox 
                     Grid.Row="3"
                     Grid.Column="1"
@@ -81,10 +86,36 @@
                     Integer="{Binding QuantityToSell, Mode=TwoWay}"
                     Maximum="{Binding SelectedProduct.Quantity}"/>
 
+                <StackPanel
+                    Grid.Row="6"
+                    Grid.Column="1"
+                    Grid.ColumnSpan="3"
+                    Orientation="Horizontal"
+                    HorizontalAlignment="Left">
+
+                    <Label 
+                        Grid.Row="6"
+                        Grid.Column="1"
+                        VerticalContentAlignment="Bottom"
+                        HorizontalContentAlignment="Left"
+                        FontSize="16"
+                        FontWeight="Medium"
+                        Content="Subtotal: "/>
+                    <Label 
+                        Grid.Row="6"
+                        Grid.Column="2"
+                        VerticalContentAlignment="Bottom"
+                        HorizontalContentAlignment="Left"
+                        FontSize="16"
+                        FontWeight="Medium"
+                        Content="{Binding Subtotal, StringFormat=C}"/>
+                </StackPanel>
+               
+
                 <Button
                     Content="Sell"
                     Grid.Column="1"
-                    Grid.Row="7"
+                    Grid.Row="8"
                     Grid.ColumnSpan="2"
                     IsEnabled="{Binding CanSell}"
                     Click="Sell_Button_Click"/>
