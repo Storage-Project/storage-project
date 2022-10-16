@@ -21,12 +21,13 @@ namespace storage_app.Services
             return products;
         }
 
-        public async Task<List<Product>> GetProductsFiltered(string? description = null, string? category = null, int? quantity = null)
+        public async Task<List<Product>> GetProductsFiltered(int? id = null, string? description = null, string? category = null, int? quantity = null)
         {
             List<Product> products = new();
 
             Dictionary<string, string> query = new();
             if (description != null) query["description"] = description;
+            if (id != null) query["id"] = Convert.ToString(id);
             if (category != null) query["category"] = category;
             if (quantity != null)
             {

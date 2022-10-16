@@ -2,6 +2,7 @@
 using storage_app.Services;
 using storage_app.Utils.Objects;
 using storage_app.ViewModels.Actions;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -50,6 +51,7 @@ namespace storage_app.ViewModels
             set
             {
                 _filterDescription = value;
+                _filter.Id = Convert.ToInt32(_filterDescription);
                 _filter.Description = _filterDescription;
                 OnPropertyChanged(nameof(FilterDescription));
                 OnPropertyChanged(nameof(Filter));

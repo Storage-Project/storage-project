@@ -11,7 +11,7 @@ namespace storage_app.Services
 {
     internal class ServiceBase
     {
-        private readonly string _baseUrl = "https://estoque-api.azurewebsites.net";
+        private readonly string _baseUrl = "https://localhost:7113";
 
         protected async Task<T?> GetValueAsync<T>(string Path, Dictionary<string,string>? query = null)
         {

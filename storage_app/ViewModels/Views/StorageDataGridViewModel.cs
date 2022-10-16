@@ -126,6 +126,7 @@ namespace storage_app.ViewModels
                     async () =>
                     await productService
                     .GetProductsFiltered(
+                        id: filter.Id,
                         description: filter.Description,
                         category: filter.Category.Description
                         )

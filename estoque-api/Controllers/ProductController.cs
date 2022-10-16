@@ -56,11 +56,11 @@ namespace storage.Controllers
 
         [HttpGet]
         [Route("products/filters")]
-        public async Task<IActionResult> GetAsync([FromServices] AppDbContext context, [FromQuery] string? description, [FromQuery] string? category, [FromQuery] int? quantity)
+        public async Task<IActionResult> GetAsync([FromServices] AppDbContext context, [FromQuery] int? id, [FromQuery] string? description, [FromQuery] string? category, [FromQuery] int? quantity)
         {
             try
             {
-                var products = await _repository.GetByFilters(description, category, quantity);
+                var products = await _repository.GetByFilters(id, description, category, quantity);
                 if (products == null)
                     return NotFound();
                 return Ok(products);
