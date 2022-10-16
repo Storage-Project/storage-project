@@ -51,7 +51,10 @@ namespace storage_app.ViewModels
             set
             {
                 _filterDescription = value;
-                _filter.Id = Convert.ToInt32(_filterDescription);
+                if (int.TryParse(_filterDescription, out int num))
+                    _filter.Id = num;
+                else
+                    _filter.Id = null;
                 _filter.Description = _filterDescription;
                 OnPropertyChanged(nameof(FilterDescription));
                 OnPropertyChanged(nameof(Filter));
