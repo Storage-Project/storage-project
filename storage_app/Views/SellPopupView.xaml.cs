@@ -4,6 +4,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using storage_app.Utils;
+using System;
 
 namespace storage_app.Views
 {
@@ -15,6 +16,12 @@ namespace storage_app.Views
         public SellPopupView()
         {
             InitializeComponent();
+        }
+
+        private void SellPopupView_Opened(object sender, EventArgs e)
+        {
+            if (DataContext is not SellViewModel viewModel) return;
+            viewModel.GetProducts();
         }
 
         private void Close_Button_Click(object sender, RoutedEventArgs e)

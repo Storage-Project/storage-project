@@ -29,6 +29,7 @@ namespace storage_app.ViewModels
             {
                 _selectedProduct = value;
                 OnPropertyChanged(nameof(SelectedProduct));
+                QuantityToSell = 0;
             }
         }
 
@@ -41,6 +42,7 @@ namespace storage_app.ViewModels
                 _quantityToSell = value;
                 OnPropertyChanged(nameof(QuantityToSell));
                 CanSell = _quantityToSell > 0;
+                Subtotal = SelectedProduct.Price * _quantityToSell;
             }
         }
         private bool _canSell = false;
@@ -53,16 +55,25 @@ namespace storage_app.ViewModels
                 OnPropertyChanged(nameof(CanSell));
             }
         }
+        private decimal _subtotal;
+        public decimal Subtotal
+        {
+            get { return _subtotal; }
+            set
+            {
+                _subtotal = value;
+                OnPropertyChanged(nameof(Subtotal));
+            }
+        }
 
         private readonly IProductService productService;
         public SellViewModel(IProductService productService)
         {
             _startSelling = new((_) => SellProduct());
             this.productService = productService;
-            GetProducts();
         }
 
-        private void GetProducts()
+        public void GetProducts()
         {
             var task = Task.Run(async () => await productService.GetProducts());
             OriginalProducts = task.Result;
